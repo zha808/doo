@@ -8,7 +8,6 @@ import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 public final class CountryEntity extends Entity {
 	private String name;
 	
-	
 	public CountryEntity() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());

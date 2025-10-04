@@ -1,12 +1,12 @@
 package co.edu.uco.nose.business.domain;
 
 import java.util.UUID;
-
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
 public final class UserDomain extends Domain{
+	
 	private String idNumber;
 	private String firstName;
 	private String secondName;
@@ -49,10 +49,10 @@ public final class UserDomain extends Domain{
 		setPhoneConfirmed(false);
 	}
 	
-	public UserDomain(UUID id, String firstName, String secondName, String lastName, String secondLastName, String email, String phoneNumber,
+	public UserDomain(UUID id, String idNumber, String firstName, String secondName, String lastName, String secondLastName, String email, String phoneNumber,
 			IdTypeDomain identificationType, CityDomain city) {
 		super(id);
-		setIdNumber(TextHelper.getDefault());
+		setIdNumber(idNumber);
 		setFirstName(firstName);
 		setSecondName(secondName);
 		setLastName(lastName);
@@ -154,8 +154,5 @@ public final class UserDomain extends Domain{
 	public void setPhoneConfirmed(boolean phoneConfirmed) {
 		this.phoneConfirmed = phoneConfirmed;
 	}
-	
-	
-	
 	
 }
