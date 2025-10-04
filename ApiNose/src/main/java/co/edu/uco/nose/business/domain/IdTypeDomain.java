@@ -5,20 +5,20 @@ import java.util.UUID;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public final class IdentificationTypeDomain extends Domain {
+public final class IdTypeDomain extends Domain {
 	private String name;
 	
-	public IdentificationTypeDomain() {
+	public IdTypeDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
 	}
 	
-	public IdentificationTypeDomain(final UUID id) {
+	public IdTypeDomain(final UUID id) {
 		super(id);
 		setName(TextHelper.getDefault());
 	}
 	
-	public IdentificationTypeDomain(final UUID id, final String name) {
+	public IdTypeDomain(final UUID id, final String name) {
 		super(id);
 		setName(name);
 	}

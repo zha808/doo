@@ -1,5 +1,5 @@
 package co.edu.uco.nose.entity;
 
-public class UserEntity {
+public final class UserEntity extends Entity {
 
 }
