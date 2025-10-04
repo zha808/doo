@@ -5,22 +5,31 @@ import java.util.UUID;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public class CountryDTO extends DTO {
+public class CountryDTO {
+	private UUID id;
 	private String name;
 	
 	public CountryDTO() {
-		super(UUIDHelper.getUUIDHelper().getDefault());
+		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
 	}
 	
 	public CountryDTO(UUID id) {
-		super(id);
+		setId(id);
 		setName(TextHelper.getDefault());
 	}
 
 	public CountryDTO(final UUID id, final String name) {
-		super(id);
+		setId(id);
 		setName(name);
+	}
+	
+	public UUID getId() {
+		return id;
+	}
+	
+	public void setId(final UUID id) {
+		this.id = UUIDHelper.getUUIDHelper() .getDefault(id);;
 	}
 
 	public String getName() {

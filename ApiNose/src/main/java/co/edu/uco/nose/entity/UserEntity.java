@@ -6,7 +6,9 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public final class UserEntity extends Entity {
+public final class UserEntity {
+	
+	private UUID id;
 	private String idNumber;
 	private String firstName;
 	private String secondName;
@@ -20,7 +22,7 @@ public final class UserEntity extends Entity {
 	private boolean phoneConfirmed;
 	
 	public UserEntity() {
-		super(UUIDHelper.getUUIDHelper().getDefault());
+		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setIdNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
@@ -35,7 +37,7 @@ public final class UserEntity extends Entity {
 	}
 	
 	public UserEntity(UUID id) {
-		super(id);
+		setId(id);
 		setIdNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
@@ -51,7 +53,7 @@ public final class UserEntity extends Entity {
 	
 	public UserEntity(UUID id, String idNumber, String firstName, String secondName, String lastName, String secondLastName, String email, String phoneNumber,
 			IdTypeEntity identificationType, CityEntity city) {
-		super(id);
+		setId(id);
 		setIdNumber(idNumber);
 		setFirstName(firstName);
 		setSecondName(secondName);
@@ -63,6 +65,14 @@ public final class UserEntity extends Entity {
 		setCity(city);
 		setEmailConfirmed(false);
 		setPhoneConfirmed(false);
+	}
+	
+	public UUID getId() {
+		return id;
+	}
+	
+	public void setId(UUID id) {
+		this.id = UUIDHelper.getUUIDHelper().getDefault(id);
 	}
 
 	public String getIdNumber() {

@@ -5,24 +5,32 @@ import java.util.UUID;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public final class CountryEntity extends Entity {
+public final class CountryEntity  {
+	private UUID id;
 	private String name;
 	
 	public CountryEntity() {
-		super(UUIDHelper.getUUIDHelper().getDefault());
+		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
 	}
 	
 	public CountryEntity(UUID id) {
-		super(id);
+		setId(id);
 		setName(TextHelper.getDefault());
 	}
 	
 	public CountryEntity(UUID id, final String name) {
-		super(id);
+		setId(id);
 		setName(name);
 	}
-
+	
+	public UUID getId() {
+		return id;
+	}
+	
+	public void setId(UUID id) {
+		this.id = UUIDHelper.getUUIDHelper().getDefault(id);
+	}
 
 	public String getName() {
 		return name;

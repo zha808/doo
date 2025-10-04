@@ -4,22 +4,31 @@ import java.util.UUID;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public class IdTypeDTO extends DTO {
+public class IdTypeDTO {
+	private UUID id;
 	private String name;
 	
 	public IdTypeDTO() {
-		super(UUIDHelper.getUUIDHelper().getDefault());
+		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
 	}
 	
 	public IdTypeDTO(final UUID id) {
-		super(id);
+		setId(id);
 		setName(TextHelper.getDefault());
 	}
 	
 	public IdTypeDTO(final UUID id, final String name) {
-		super(id);
+		setId(id);
 		setName(name);
+	}
+	
+	public UUID getId() {
+		return id;
+	}
+	
+	public void setId(final UUID id) {
+		this.id = UUIDHelper.getUUIDHelper() .getDefault(id);;
 	}
 
 	public String getName() {

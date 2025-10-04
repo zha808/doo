@@ -4,26 +4,35 @@ import java.util.UUID;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public class CityDTO extends DTO {
+public class CityDTO {
+	private UUID id;
 	private String name;
 	private StateDTO state;
 	
 	public CityDTO() {
-		super(UUIDHelper.getUUIDHelper().getDefault());
+		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
 		setState(new StateDTO());
 	}
 	
 	public CityDTO(final UUID id) {
-		super(id);
+		setId(id);
 		setName(TextHelper.getDefault());
 		setState(new StateDTO());
 	}
 	
 	public CityDTO(final UUID id, final String name, final StateDTO state) {
-		super(id);
+		setId(id);
 		setName(name);
 		setState(state);
+	}
+	
+	public UUID getId() {
+		return id;
+	}
+	
+	public void setId(final UUID id) {
+		this.id = UUIDHelper.getUUIDHelper() .getDefault(id);;
 	}
 	
 	public String getName() {

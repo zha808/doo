@@ -5,8 +5,9 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public class UserDTO extends DTO {
+public class UserDTO {
 	
+	private UUID id;
 	private String idNumber;
 	private String firstName;
 	private String secondName;
@@ -20,7 +21,7 @@ public class UserDTO extends DTO {
 	private boolean phoneConfirmed;
 	
 	public UserDTO() {
-		super(UUIDHelper.getUUIDHelper().getDefault());
+		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setIdNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
@@ -35,7 +36,7 @@ public class UserDTO extends DTO {
 	}
 	
 	public UserDTO(final UUID id) {
-		super(id);
+		setId(id);
 		setIdNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
@@ -51,7 +52,7 @@ public class UserDTO extends DTO {
 	
 	public UserDTO(final UUID id, final String idNumber, final String firstName, final String secondName, final String lastName, final String secondLastName, final String email, final String phoneNumber,
 			final IdTypeDTO identificationType, final CityDTO city) {
-		super(id);
+		setId(id);
 		setIdNumber(idNumber);
 		setFirstName(firstName);
 		setSecondName(secondName);
@@ -64,6 +65,14 @@ public class UserDTO extends DTO {
 		setEmailConfirmed(false);
 		setPhoneConfirmed(false);
 
+	}
+	
+	public UUID getId() {
+		return id;
+	}
+	
+	public void setId(final UUID id) {
+		this.id = UUIDHelper.getUUIDHelper().getDefault(id);
 	}
 		
 	public String getIdNumber() {
