@@ -1,5 +1,5 @@
 package co.edu.uco.nose.entity;
 
-public class DocumentType {
+public class CityEntity {
 
 }

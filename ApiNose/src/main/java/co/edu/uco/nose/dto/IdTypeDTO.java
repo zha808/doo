@@ -1,5 +1,5 @@
 package co.edu.uco.nose.dto;
 
-public class DocumentTypeDTO {
+public class IdTypeDTO {
 
 }

@@ -1,5 +1,5 @@
 package co.edu.uco.nose.entity;
 
-public class Country {
+public class IdTypeEntity {
 
 }
