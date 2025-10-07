@@ -41,5 +41,21 @@ public abstract class SqlConnection {
 		this.connection = connection;
 	}
 	
+	protected void beginTransaction() {
+        try {
+            if (ObjectHelper.isNull(connection) || connection.isClosed()) {
+                var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_IS_EMPTY.getContent();
+                var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_IS_EMPTY.getContent();
+                throw NoseException.create(userMessage, technicalMessage);
+            }
+            if (connection.getAutoCommit()) {
+                connection.setAutoCommit(false);
+            }
+        } catch (Exception exception) {
+            var userMessage = "Error starting transaction";
+            var technicalMessage = "Technical error starting transaction";
+            throw NoseException.create(exception, userMessage, technicalMessage);
+        }
+    }
 	
 }

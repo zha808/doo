@@ -21,7 +21,7 @@ public final class UserSqlServerDAO implements UserDAO {
 	}
 
 	@Override
-	public List<UserEntity> findByFilter(UserEntity fitlerEntity) {
+	public List<UserEntity> findByFilter(UserEntity filterEntity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
