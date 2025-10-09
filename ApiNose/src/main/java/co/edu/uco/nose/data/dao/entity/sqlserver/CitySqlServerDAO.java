@@ -21,7 +21,7 @@ public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 	}
 
 	@Override
-	public List<CityEntity> findByFilter(CityEntity fitlerEntity) {
+	public List<CityEntity> findByFilter(CityEntity filterEntity) {
 		// TODO Auto-generated method stub
 		return null;
 	}

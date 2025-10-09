@@ -22,7 +22,7 @@ public final class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO
 	}
 
 	@Override
-	public List<IdTypeEntity> findByFilter(IdTypeEntity fitlerEntity) {
+	public List<IdTypeEntity> findByFilter(IdTypeEntity filterEntity) {
 		// TODO Auto-generated method stub
 		return null;
 	}

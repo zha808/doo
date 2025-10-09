@@ -15,10 +15,10 @@ public class SqlConnectionHelper {
             Properties prop = new Properties();
             prop.load(input);
 
-            String url = prop.getProperty("db.url");
-            String username = prop.getProperty("db.username");
-            String password = prop.getProperty("db.password");
-            String driver = prop.getProperty("db.driverClassName");
+            String url = prop.getProperty("spring.datasource.url");
+            String username = prop.getProperty("spring.datasource.username");
+            String password = prop.getProperty("spring.datasource.password");
+            String driver = prop.getProperty("spring.datasource.driverClassName");
 
             Class.forName(driver);
             return DriverManager.getConnection(url, username, password);

@@ -11,7 +11,6 @@ public final class UserSqlServerDAO implements UserDAO {
 	@Override
 	public void create(UserEntity entity) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public final class CountrySqlServerDAO extends SqlConnection implements CountryD
 	}
 
 	@Override
-	public List<CountryEntity> findByFilter(CountryEntity fitlerEntity) {
+	public List<CountryEntity> findByFilter(CountryEntity filterEntity) {
 		// TODO Auto-generated method stub
 		return null;
 	}

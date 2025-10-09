@@ -22,7 +22,7 @@ public final class StateSqlServerDAO extends SqlConnection implements StateDAO{
 	}
 
 	@Override
-	public List<StateEntity> findByFilter(StateEntity fitlerEntity) {
+	public List<StateEntity> findByFilter(StateEntity filterEntity) {
 		// TODO Auto-generated method stub
 		return null;
 	}

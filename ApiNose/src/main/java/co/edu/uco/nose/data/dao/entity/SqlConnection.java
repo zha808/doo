@@ -37,23 +37,21 @@ public abstract class SqlConnection {
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		
-		
 		this.connection = connection;
 	}
 	
-	protected void beginTransaction() {
-        try {
-            if (ObjectHelper.isNull(connection) || connection.isClosed()) {
-                var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_IS_EMPTY.getContent();
-                var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_IS_EMPTY.getContent();
-                throw NoseException.create(userMessage, technicalMessage);
+	protected void validateTransaction() {
+
+		try {
+			if (connection.getAutoCommit()) {
+				var userMessage = MessagesEnum.USER_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
+				var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
+				throw NoseException.create(userMessage, technicalMessage);
             }
-            if (connection.getAutoCommit()) {
-                connection.setAutoCommit(false);
-            }
+            
         } catch (Exception exception) {
-            var userMessage = "Error starting transaction";
-            var technicalMessage = "Technical error starting transaction";
+            var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS.getContent();
+            var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS.getContent();
             throw NoseException.create(exception, userMessage, technicalMessage);
         }
     }
