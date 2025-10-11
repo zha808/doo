@@ -10,7 +10,7 @@ import co.edu.uco.nose.entity.CountryEntity;
 
 public final class CountrySqlServerDAO extends SqlConnection implements CountryDAO {
 
-	protected CountrySqlServerDAO(Connection connection) {
+	public CountrySqlServerDAO(Connection connection) {
 		super(connection);
 		// TODO Auto-generated constructor stub
 	}

@@ -10,7 +10,7 @@ import co.edu.uco.nose.entity.StateEntity;
 
 public final class StateSqlServerDAO extends SqlConnection implements StateDAO{
 
-	protected StateSqlServerDAO(Connection connection) {
+	public StateSqlServerDAO(Connection connection) {
 		super(connection);
 		// TODO Auto-generated constructor stub
 	}

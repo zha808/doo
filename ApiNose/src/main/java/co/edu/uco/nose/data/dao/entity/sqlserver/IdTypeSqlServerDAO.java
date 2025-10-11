@@ -10,7 +10,7 @@ import co.edu.uco.nose.entity.IdTypeEntity;
 
 public final class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO {
 
-	protected IdTypeSqlServerDAO(Connection connection) {
+	public IdTypeSqlServerDAO(Connection connection) {
 		super(connection);
 		// TODO Auto-generated constructor stub
 	}

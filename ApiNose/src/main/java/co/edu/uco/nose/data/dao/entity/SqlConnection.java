@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
+import co.edu.uco.nose.crosscuting.helper.SqlConnectionHelper;
 import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 
 public abstract class SqlConnection {
@@ -19,41 +20,7 @@ public abstract class SqlConnection {
 	}
 
 	private void setConnection(Connection connection) {
-		if(ObjectHelper.isNull(connection)) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_IS_EMPTY.getContent();
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_IS_EMPTY.getContent();
-			throw NoseException.create(userMessage, technicalMessage);
-		}
-		
-		try {
-			if(connection.isClosed()) {
-				var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_IS_CLOSED.getContent();
-				var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_IS_CLOSED.getContent();
-				throw NoseException.create(userMessage, technicalMessage);
-			}
-		} catch (Exception exception) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_CONNECTION_STATUS.getContent();
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_CONNECTION_STATUS.getContent();
-			throw NoseException.create(exception, userMessage, technicalMessage);
-		}
-		
-		this.connection = connection;
+		SqlConnectionHelper.setConnection(connection);
 	}
-	
-	protected void validateTransaction() {
-
-		try {
-			if (connection.getAutoCommit()) {
-				var userMessage = MessagesEnum.USER_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
-				var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
-				throw NoseException.create(userMessage, technicalMessage);
-            }
-            
-        } catch (Exception exception) {
-            var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS.getContent();
-            var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS.getContent();
-            throw NoseException.create(exception, userMessage, technicalMessage);
-        }
-    }
 	
 }
