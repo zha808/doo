@@ -51,22 +51,7 @@ public class SqlConnectionHelper {
 		
 		return connection;
 	}
-	
-	public void validateTransaction(Connection connection) {
 
-		try {
-			if (connection.getAutoCommit()) {
-				var userMessage = MessagesEnum.USER_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
-				var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
-				throw NoseException.create(userMessage, technicalMessage);
-            }
-            
-        } catch (Exception exception) {
-            var userMessage = MessagesEnum.USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS.getContent();
-            var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS.getContent();
-            throw NoseException.create(exception, userMessage, technicalMessage);
-        }
-    }
     
 	public static void ensureTransactionIsNotStarted(Connection connection) {
 
@@ -87,7 +72,7 @@ public class SqlConnectionHelper {
 	public static void ensureTransactionIsStarted(Connection connection) {
 
 		try {
-			if (!connection.getAutoCommit()) {
+			if (connection.getAutoCommit()) {
 				var userMessage = MessagesEnum.USER_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
 				var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_TRANSACTION_NOT_INITIATE.getContent();
 				throw NoseException.create(userMessage, technicalMessage);
