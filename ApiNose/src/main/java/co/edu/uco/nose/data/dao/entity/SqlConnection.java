@@ -20,7 +20,8 @@ public abstract class SqlConnection {
 	}
 
 	private void setConnection(Connection connection) {
-		SqlConnectionHelper.setConnection(connection);
+		SqlConnectionHelper.ensureConnectionIsOpen(connection);
+		this.connection = connection;;
 	}
 	
 }
