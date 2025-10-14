@@ -23,7 +23,7 @@ public abstract class DAOFactory {
 			return new SqlServerDAOFactory();
 		} else {
 			var userMessage = "Factoria no iniciada";
-			var technicalMessage = "Factoria no iniciada";
+			var technicalMessage = "Factoria no valida";
 			throw NoseException.create(userMessage, technicalMessage);
 		}
 	}
@@ -88,7 +88,7 @@ public abstract class DAOFactory {
 	protected final void closeConnection() {
 		SqlConnectionHelper.ensureConnectionIsOpen(connection);
 		try {
-			connection.rollback();
+			connection.close();
 		} catch (final SQLException exception) {
 			var userMessage = "";
 			var technicalMessage = "";

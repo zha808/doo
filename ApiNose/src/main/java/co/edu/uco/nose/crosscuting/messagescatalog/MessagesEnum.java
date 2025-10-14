@@ -25,18 +25,32 @@ public enum MessagesEnum {
 			"Se presento un error de tipo SQL.Exception al validar si la conexion contra la base de datos. "
 			+ "Por favor valide la consola de errores para revisar con detalle el problema presentado."),
 	
-	USER_ERROR_SQL_TRANSACTION_NOT_INITIATE("Transaccion no iniciada", 
-			"La transaccion requerida para llevar a cabo la operacion contra la fuente de informacion deseada no ha sido iniciada. "
-			+ "Por favor intente de nuevo y si el problema persiste, contacto al administrador de la aplicacion"),
-	TECHNICAL_ERROR_SQL_TRANSACTION_NOT_INITIATE("Transaccion no iniciada", 
-			"La transaccion requerida para llevar a cabo la operacion contra la fuente de informacion deseada no ha sido iniciada."),
-	
 	USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS("Problema inesperado validando el estado de la transaccion", 
 			"Se ha presentado un problema inesperado tratando de validar el estado de la transaccion. Por favor intente de nuevo y "
 			+ "si el problema persiste, contacto al administrador de la aplicacion"),
 	TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS("Error inesperado validando si la transaccion estaba iniciada", 
 			"Se presento un error de tipo SQL.Exception al validar si la transaccion estaba iniciada. "
-			+ "Por favor valide la consola de errores para revisar con detalle el problema presentado.");
+			+ "Por favor valide la consola de errores para revisar con detalle el problema presentado."), 
+	
+	USER_ERROR_TRANSACTION_IS_NOT_STARTED ("Transaccion no iniciada", 
+			"La transaccion requerida para llevar a cabo la operacion contra la fuente de informacion deseada no ha sido iniciada. "
+			+ "Por favor intente de nuevo y si el problema persiste, contacto al administrador de la aplicacion"),
+	TECHNICAL_ERROR_TRANSACTION_IS_NOT_STARTED ("Transaccion no iniciada",
+			"La transaccion requerida para llevar a cabo la operacion contra la fuente de informacion deseada no ha sido iniciada. "
+					+ "Por favor intente de nuevo y si el problema persiste, contacto al administrador de la aplicacion"), 
+	USER_ERROR_TRANSACTION_IS_STARTED("Transaccion iniciada", 
+			"La transaccion requerida para llevar a cabo la operacion contra la fuente de informacion deseada ha sido iniciada. "
+			+ "Por favor intente de nuevo y si el problema persiste, contacto al administrador de la aplicacion"),
+	TECHNICAL_ERROR_TRANSACTION_IS_STARTED ("Transaccion iniciada",
+			"La transaccion requerida para llevar a cabo la operacion contra la fuente de informacion deseada ha sido iniciada. "
+					+ "Por favor intente de nuevo y si el problema persiste, contacto al administrador de la aplicacion"), 
+	USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS_IS_CLOSED("", ""), 
+	TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS_IS_CLOSED("", ""), 
+	USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS_IS_NOT_OPEN("", ""), 
+	TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_STATUS_IS_NOT_OPEN("", ""), 
+	USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_IS_OPEN("", ""), 
+	TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_IS_OPEN("", ""); 
+	
 	
 	private String title;
 	private String content;

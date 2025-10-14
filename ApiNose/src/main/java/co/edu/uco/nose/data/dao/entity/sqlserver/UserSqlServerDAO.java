@@ -2,6 +2,7 @@ package co.edu.uco.nose.data.dao.entity.sqlserver;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,27 +16,25 @@ import co.edu.uco.nose.entity.CountryEntity;
 import co.edu.uco.nose.entity.IdTypeEntity;
 import co.edu.uco.nose.entity.StateEntity;
 import co.edu.uco.nose.entity.UserEntity;
+import co.edu.uco.nose.data.dao.mapper.UserMapper;
+import co.edu.uco.nose.data.dao.sql.UserSql;
 
 public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 
-	public UserSqlServerDAO(Connection connection) {
+	
+	public UserSqlServerDAO(final Connection connection) {
 		super(connection);
+		this.mapper = new UserMapper();
 		// TODO Auto-generated constructor stub
 	}
+	
+	private final UserMapper mapper;
 	@Override
-	public void create(UserEntity entity) {
+	public void create(final UserEntity entity) {
 		
 		SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
 		
-		final var sql = new StringBuilder();
-		sql.append("INSERT INTO Usuario (id, tipoIdentificacion, "
-				+ "numeroIdentificacion, primerNombre, segundoNombre, "
-				+ "primerApellido, segundoApellido, ciudadResidencia, "
-				+ "correoElectronico, numeroTelefonoMovil, "
-				+ "correoElectronicoConfirmado, numeroTelefonoMovilConfirmado)");
-		sql.append("SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
-		
-		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
+		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.CREATE)) {
 			preparedStatement.setObject(1, entity.getId());
 			preparedStatement.setObject(2, entity.getIdentificationType().getId());
 			preparedStatement.setString(3, entity.getIdNumber());
@@ -52,11 +51,11 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			preparedStatement.executeUpdate();
 			
 		} catch (final SQLException exception) {
-			var userMessage = "Se ha presentado un problema tratando de registrar la informacion";
-			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el ";
+			var userMessage = "Se ha presentado un problema tratando de registrar la informacion del nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de creacion de un usuario";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "Se ha presentado un problema INESPERADO tratando de registrar la informacion";
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de crear un nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
 			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el ";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
@@ -64,120 +63,132 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 
 	@Override
 	public List<UserEntity> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		var users = new ArrayList<UserEntity>();
+		
+		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.FIND_ALL)) {			
+			
+			try (var resultSet = preparedStatement.executeQuery()) {
+				while (resultSet.next()) {
+					
+					var user = mapper.map(resultSet);
+					users.add(user);
+				} 
+			} catch (final SQLException exception) {
+				var userMessage = "Ocurrió un problema al ejecutar la consulta de usuarios";
+				var technicalMessage = "Error SQL ejecutando el query en UserDAO.findAll.";
+				throw NoseException.create(exception, userMessage, technicalMessage);
+			} catch (final Exception exception) {
+				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de usuarios";
+				var technicalMessage = "Error INESPERADO SQL ejecutando el query en UserDAO.findAll.";
+				throw NoseException.create(exception, userMessage, technicalMessage);
+			}
+			
+		} catch (final SQLException exception) {
+			var userMessage = "Se ha presentado un problema tratando de consultar la informacion de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de consulta de usuarios. Por favor verifique que la informacion este correcta";
+			throw NoseException.create(exception, userMessage, technicalMessage);
+		} catch (final Exception exception) {
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de consultar la informacion de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de consulta de usuarios. Por favor verifique que la informacion este correcta";
+			throw NoseException.create(exception, userMessage, technicalMessage);
+		}
+		return users;
 	}
 
 	@Override
 	public List<UserEntity> findByFilter(UserEntity filterEntity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UserEntity findById(UUID id) {
+		var users = new ArrayList<UserEntity>();
 		
-		var user = new UserEntity();
-		
-		final var sql = new StringBuilder();
-		sql.append("SELECT 	u.id,");
-		sql.append("	ti.id AS idTipoIdentificacion,");
-		sql.append("	ti.nombre AS nombreTipoIdentificacion,");
-		sql.append("	u.numeroIdentificacion,");
-		sql.append("	u.primerNombre,");
-		sql.append("	u.segundoNombre,");
-		sql.append("	u.primerApellido,");
-		sql.append("	u.segundoApellido,");
-		sql.append("	c.id AS idCiudadResidencia,");
-		sql.append("	c.nombre AS nombreCiudadResidencia,");
-		sql.append("	d.id AS idDepartamentoCiudadResidencia,");
-		sql.append("	d.nombre AS nombreDepartamentoCiudadResidencia,");
-		sql.append("	p.id AS idPaisDepartamentoCiudadResidencia,");
-		sql.append("	p.nombre AS nombrePaisDepartamentoCiudadResidencia,");
-		sql.append("	u.correoElectronico,");
-		sql.append("	u.numeroTelefonoMovil,");
-		sql.append("	u.correoElectronicoConfirmado,");
-		sql.append("	u.numeroTelefonoMovilCOnfirmado");
-		sql.append("FROM Usuario AS u");
-		sql.append("INNER JOIN Tipoidentificacion AS ti");
-		sql.append("ON u.tipoIdentificacion = ti.id");
-		sql.append("INNER JOIN Ciudad AS c");
-		sql.append("ON c.departamento");
-		sql.append("INNER JOIN Pais AS p");
-		sql.append("ON d.pais = p.id");
-		sql.append("WHERE u.id = ?");
-		
-		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
-			preparedStatement.setObject(1, id);			
-			preparedStatement.executeUpdate();
+		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.FIND_BY_FILTER)) {			
 			
-			try(var resultSet = preparedStatement.executeQuery()) {
-				if (resultSet.next()) {
+			preparedStatement.setObject(1, filterEntity.getId());
+			preparedStatement.setObject(2, filterEntity.getIdentificationType().getId());
+			preparedStatement.setString(3, filterEntity.getIdNumber());
+			preparedStatement.setString(4, filterEntity.getFirstName());
+			preparedStatement.setString(5, filterEntity.getSecondName());
+			preparedStatement.setString(6, filterEntity.getLastName());
+			preparedStatement.setString(7, filterEntity.getSecondLastName());
+			preparedStatement.setObject(8, filterEntity.getCity().getId());
+			preparedStatement.setString(9, filterEntity.getEmail());
+			preparedStatement.setString(10, filterEntity.getPhoneNumber());
+			
+			if (filterEntity.isEmailConfirmed()) {
+				preparedStatement.setBoolean(11, filterEntity.isEmailConfirmed());
+			}
+			if (filterEntity.isPhoneConfirmed()) {
+				preparedStatement.setBoolean(12, filterEntity.isPhoneConfirmed());
+			}
+			
+			try (var resultSet = preparedStatement.executeQuery()) {
+				while (resultSet.next()) {
 					
-					var idType = new IdTypeEntity();
-					idType.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idTipoIdentificacion")));
-					idType.setName(resultSet.getString("nombreTipoIdentificacion"));
-					
-					var country = new CountryEntity();
-					country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPaisDepartamentoCiudadResidencia")));
-					country.setName(resultSet.getString("nombrePaisDepartamentoCiudadResidencia"));
-					
-					var state = new StateEntity();
-					state.setCountry(country);
-					state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamentoCiudadResidencia")));
-					state.setName(resultSet.getString("nombreDepartamentoCiudadResidencia"));
-					
-					var city = new CityEntity();
-					city.setDepartment(state);
-					city.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idCiudadResidencia")));
-					city.setName(resultSet.getString("nombreCiudadResidencia"));
-					
-					user.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
-					user.setIdentificationType(idType);
-					user.setFirstName(resultSet.getString(resultSet.getString("primerNombre")));
-					user.setSecondName(resultSet.getString(resultSet.getString("segundoNombre")));
-					user.setLastName(resultSet.getString(resultSet.getString("primerApellido")));
-					user.setSecondLastName(resultSet.getString(resultSet.getString("segundoApellido")));
-					user.setCity(city);
-					user.setEmail(resultSet.getString(resultSet.getString("correoElectronico")));
-					user.setPhoneNumber(resultSet.getString(resultSet.getString("numeroTelefonoMovil")));
-					user.setPhoneConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
-					user.setEmailConfirmed(resultSet.getBoolean("correoElectronicoConfirmado"));
-				} // Como aseguro que puedo mostrar claramente cuando un problema se presento ejecutando la sentencia SQL de consulta o preparando la sentencia de consulta
+					var user = mapper.map(resultSet);
+					users.add(user);
+				} 
+			} catch (final SQLException exception) {
+				var userMessage = "Ocurrió un problema al ejecutar la consulta de usuarios";
+				var technicalMessage = "Error SQL ejecutando el query en UserDAO.findByFilter.";
+				throw NoseException.create(exception, userMessage, technicalMessage);
+			} catch (final Exception exception) {
+				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de usuarios";
+				var technicalMessage = "Error INESPERADO SQL ejecutando el query en UserDAO.findByFilter.";
+				throw NoseException.create(exception, userMessage, technicalMessage);
 			}
 			
 		} catch (final SQLException exception) {
-			var userMessage = "Se ha presentado un problema tratando de modificar la informacion del usuario deseado";
-			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de consulta del usuario deseado";
+			var userMessage = "Se ha presentado un problema tratando de consultar la informacion de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de consulta de usuarios. Por favor verifique que la informacion este correcta";
+			throw NoseException.create(exception, userMessage, technicalMessage);
+			} catch (final Exception exception) {
+				var userMessage = "Se ha presentado un problema INESPERADO tratando de consultar la informacion de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+				var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de consulta de usuarios. Por favor verifique que la informacion este correcta";
+				throw NoseException.create(exception, userMessage, technicalMessage);
+				
+			}
+		
+		return users;
+	}
+
+	@Override
+	public UserEntity findById(final UUID id) {
+		
+		var user = new UserEntity();
+		
+		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.FIND_BY_ID)) {
+			preparedStatement.setObject(1, id);			
+			
+			try (var resultSet = preparedStatement.executeQuery()) {
+				if (resultSet.next()) {
+					
+					user = mapper.map(resultSet);
+				} 
+			} catch (final SQLException exception) {
+				var userMessage = "Ocurrió un problema al ejecutar la consulta de usuario";
+				var technicalMessage = "Error SQL ejecutando el query en UserDAO.findById.";
+				throw NoseException.create(exception, userMessage, technicalMessage);
+			} catch (final Exception exception) {
+				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de usuario";
+				var technicalMessage = "Error INESPERADO SQL ejecutando el query en UserDAO.findById.";
+				throw NoseException.create(exception, userMessage, technicalMessage);
+			}
+			
+		} catch (final SQLException exception) {
+			var userMessage = "Se ha presentado un problema tratando de consultar la informacion del usuario deseado. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de consulta del usuario deseado. Por favor verifique que la informacion este correcta";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "Se ha presentado un problema INESPERADO tratando de consultar la informacion del usuario deseado";
-			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejcutar el proceso de consulta del usuario deseado" + exception.getMessage();
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de consultar la informacion del usuario deseado. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de consulta del usuario deseado. Por favor verifique que la informacion este correcta";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		return user;
 	}
 
 	@Override
-	public void update(UserEntity entity) {
+	public void update(final UserEntity entity) {
 		SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
 		
-		final var sql = new StringBuilder();
-		sql.append("UPDATE Usuario");
-		sql.append("SET		tipoIdentificacion = ?,");
-		sql.append("		numeroIdentificacion = ? ,");
-		sql.append("		primerNombre = ? ,");
-		sql.append("		segundoNombre = ? ,");
-		sql.append("		primerApellido = ? ,");
-		sql.append("		segundoApellido = ? ,");
-		sql.append("		ciudadResidencia = ? ,");
-		sql.append("		correoElectronico = ? ,");
-		sql.append("		numeroTelefonoMovil = ? ,");
-		sql.append("		correoElectronicoConfirmado = ? ,");
-		sql.append("		numeroTelefonoMovilConfirmado = ? ,");
-		sql.append("WHERE id = ?");
-		
-		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
+		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.UPDATE)) {
 			preparedStatement.setObject(1, entity.getId());
 			preparedStatement.setObject(2, entity.getIdentificationType().getId());
 			preparedStatement.setString(3, entity.getIdNumber());
@@ -194,38 +205,33 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			preparedStatement.executeUpdate();
 			
 		} catch (final SQLException exception) {
-			var userMessage = "Se ha presentado un problema tratando de registrar la informacion";
-			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el ";
+			var userMessage = "Se ha presentado un problema tratando de modificar la informacion del nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de modificacion de un usuario";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "Se ha presentado un problema INESPERADO tratando de registrar la informacion";
-			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el ";
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de modificar la informacion del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el proceso de modificacion de un usuario";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		
 	}
 
 	@Override
-	public void delete(UUID id) {
-SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
+	public void delete(final UUID id) {
+		SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
 		
-		final var sql = new StringBuilder();
-		sql.append("DELETE ");
-		sql.append("FROM Usuario");
-		sql.append("WHERE id = ?");
-		
-		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
+		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.DELETE)) {
 			preparedStatement.setObject(1, id);
 			
 			preparedStatement.executeUpdate();
 			
 		} catch (final SQLException exception) {
-			var userMessage = "Se ha presentado un problema tratando de eliminar la informacion";
-			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el ";
+			var userMessage = "Se ha presentado un problema tratando de eliminar la informacion del nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de eliminacion del usuario";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "Se ha presentado un problema INESPERADO tratando de eliminar la informacion";
-			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el ";
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de eliminar la informacion del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el proceso de eliminacion del usuario";
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		

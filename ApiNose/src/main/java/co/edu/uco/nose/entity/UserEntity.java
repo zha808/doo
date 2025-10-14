@@ -19,7 +19,9 @@ public final class UserEntity {
 	private IdTypeEntity identificationType;
 	private CityEntity city;
 	private boolean emailConfirmed;
+	private boolean emailConfirmedIsDefaultvalue;
 	private boolean phoneConfirmed;
+	private boolean phoneConfirmedIsDefaultvalue;
 	
 	public UserEntity() {
 		setId(UUIDHelper.getUUIDHelper().getDefault());
@@ -33,7 +35,9 @@ public final class UserEntity {
 		setIdentificationType(new IdTypeEntity());
 		setCity(new CityEntity());
 		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultvalue(true);
 		setPhoneConfirmed(false);
+		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
 	public UserEntity(UUID id) {
@@ -48,7 +52,9 @@ public final class UserEntity {
 		setIdentificationType(new IdTypeEntity());
 		setCity(new CityEntity());
 		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultvalue(true);
 		setPhoneConfirmed(false);
+		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
 	public UserEntity(UUID id, String idNumber, String firstName, String secondName, String lastName, String secondLastName, String email, String phoneNumber,
@@ -111,7 +117,7 @@ public final class UserEntity {
 		return secondLastName;
 	}
 
-	public void setSecondLastName(String secondLastName) {
+	public void setSecondLastName(final String secondLastName) {
 		this.secondLastName = TextHelper.getDefaultWithTrim(secondLastName);
 	}
 
@@ -119,7 +125,7 @@ public final class UserEntity {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = TextHelper.getDefaultWithTrim(email);
 	}
 
@@ -127,7 +133,7 @@ public final class UserEntity {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(final String phoneNumber) {
 		this.phoneNumber = TextHelper.getDefaultWithTrim(phoneNumber);
 	}
 
@@ -135,7 +141,7 @@ public final class UserEntity {
 		return identificationType;
 	}
 
-	public void setIdentificationType(IdTypeEntity identificationType) {
+	public void setIdentificationType(final IdTypeEntity identificationType) {
 		this.identificationType = (ObjectHelper.isNull(identificationType) ? new IdTypeEntity() : identificationType);
 	}
 
@@ -143,7 +149,7 @@ public final class UserEntity {
 		return city;
 	}
 
-	public void setCity(CityEntity city) {
+	public void setCity(final CityEntity city) {
 		this.city = (ObjectHelper.isNull(city) ? new CityEntity() : city);
 	}
 
@@ -151,17 +157,28 @@ public final class UserEntity {
 		return emailConfirmed;
 	}
 
-	public void setEmailConfirmed(boolean emailConfirmed) {
+	public void setEmailConfirmed(final boolean emailConfirmed) {
 		this.emailConfirmed = emailConfirmed;
+		setEmailConfirmedIsDefaultvalue(false);
+	}
+	
+	private void setEmailConfirmedIsDefaultvalue(final boolean emailConfirmedIsDefaultvalue) {
+		this.emailConfirmedIsDefaultvalue = emailConfirmedIsDefaultvalue;
 	}
 
 	public boolean isPhoneConfirmed() {
 		return phoneConfirmed;
 	}
 
-	public void setPhoneConfirmed(boolean phoneConfirmed) {
+	public void setPhoneConfirmed(final boolean phoneConfirmed) {
 		this.phoneConfirmed = phoneConfirmed;
+		setPhoneConfirmedIsDefaultvalue(false);
 	}
+	
+	private void setPhoneConfirmedIsDefaultvalue(final boolean phoneConfirmedIsDefaultvalue) {
+		this.phoneConfirmedIsDefaultvalue = phoneConfirmedIsDefaultvalue;
+	}
+
 	
 	
 }

@@ -18,9 +18,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.sql.DriverManager;
 
 
-public class SqlServerDAOFactory extends DAOFactory {
+public final class SqlServerDAOFactory extends DAOFactory {
 	
 	private JdbcTemplate jdbcTemplate;
+	
+	public SqlServerDAOFactory() {
+		openConnection();
+		jdbcTemplate = new JdbcTemplate();
+	}
 	
 	@Override
 	protected void openConnection() {
