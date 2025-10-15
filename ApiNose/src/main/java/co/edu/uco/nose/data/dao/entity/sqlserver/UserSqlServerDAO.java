@@ -24,11 +24,9 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	
 	public UserSqlServerDAO(final Connection connection) {
 		super(connection);
-		this.mapper = new UserMapper();
-		// TODO Auto-generated constructor stub
 	}
 	
-	private final UserMapper mapper;
+	
 	@Override
 	public void create(final UserEntity entity) {
 		
@@ -70,7 +68,7 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			try (var resultSet = preparedStatement.executeQuery()) {
 				while (resultSet.next()) {
 					
-					var user = mapper.map(resultSet);
+					var user = UserMapper.map(resultSet);
 					users.add(user);
 				} 
 			} catch (final SQLException exception) {
@@ -122,7 +120,7 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			try (var resultSet = preparedStatement.executeQuery()) {
 				while (resultSet.next()) {
 					
-					var user = mapper.map(resultSet);
+					var user = UserMapper.map(resultSet);
 					users.add(user);
 				} 
 			} catch (final SQLException exception) {
@@ -160,26 +158,36 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			try (var resultSet = preparedStatement.executeQuery()) {
 				if (resultSet.next()) {
 					
-					user = mapper.map(resultSet);
+					user = UserMapper.map(resultSet);
+					
 				} 
+				
 			} catch (final SQLException exception) {
+				
 				var userMessage = "Ocurrió un problema al ejecutar la consulta de usuario";
 				var technicalMessage = "Error SQL ejecutando el query en UserDAO.findById.";
 				throw NoseException.create(exception, userMessage, technicalMessage);
+				
 			} catch (final Exception exception) {
+				
 				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de usuario";
 				var technicalMessage = "Error INESPERADO SQL ejecutando el query en UserDAO.findById.";
 				throw NoseException.create(exception, userMessage, technicalMessage);
+				
 			}
 			
 		} catch (final SQLException exception) {
+			
 			var userMessage = "Se ha presentado un problema tratando de consultar la informacion del usuario deseado. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
 			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de consulta del usuario deseado. Por favor verifique que la informacion este correcta";
 			throw NoseException.create(exception, userMessage, technicalMessage);
+			
 		} catch (final Exception exception) {
+			
 			var userMessage = "Se ha presentado un problema INESPERADO tratando de consultar la informacion del usuario deseado. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
 			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de consulta del usuario deseado. Por favor verifique que la informacion este correcta";
 			throw NoseException.create(exception, userMessage, technicalMessage);
+			
 		}
 		return user;
 	}
