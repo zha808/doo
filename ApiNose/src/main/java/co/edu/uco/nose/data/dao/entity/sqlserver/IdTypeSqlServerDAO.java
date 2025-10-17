@@ -33,22 +33,22 @@ public final class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO
 					
 				}
 			} catch (final SQLException exception) {
-				var userMessage = "Ocurrió un problema al ejecutar la consulta de tipos de identificacion";
-				var technicalMessage = "Error SQL ejecutando el query en .";
+				var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_ALL.getContent();
+				var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_ALL.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
 			} catch (final Exception exception) {
-				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de ";
-				var technicalMessage = "Error INESPERADO SQL ejecutando el query en .";
+				var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_ALL_UNEXPECTED.getContent();
+				var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_ALL_UNEXPECTED.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
 			}
 			
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_ALL.getContent();
+			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_ALL.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_ALL_UNEXPECTED.getContent();
+			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_ALL_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		
@@ -77,31 +77,25 @@ public final class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO
 				}
 				
 			} catch (final SQLException exception) {
-				
-				var userMessage = "Ocurrió un problema al ejecutar la consulta de tipo de identificacion";
-				var technicalMessage = "Error SQL ejecutando el query en .";
+				String userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_BY_ID.getContent();
+				String technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_BY_ID.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
 				
 			} catch (final Exception exception) {
-				
-				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de tipo de identificacion";
-				var technicalMessage = "Error INESPERADO SQL ejecutando el query en ";
+				String userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_BY_ID.getContent();
+				String technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_BY_ID.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
-				
+			
 			}
-				
+			
 		} catch (final SQLException exception) {
-			
-			var userMessage = "";
-			var technicalMessage = "";
+			String userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_BY_ID.getContent();
+			String technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_BY_ID.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
-			
 		} catch (final Exception exception) {
-			
-			var userMessage = "";
-			var technicalMessage = "";
+			String userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_IDTYPE_FIND_BY_ID.getContent();
+			String technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_IDTYPE_FIND_BY_ID.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
-			
 		}
 		
 		return idType;

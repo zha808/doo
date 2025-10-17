@@ -33,22 +33,22 @@ public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 					
 				}
 			} catch (final SQLException exception) {
-				var userMessage = "Ocurrió un problema al ejecutar la consulta de ciudades";
-				var technicalMessage = "Error SQL ejecutando el query en .";
+				var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_ALL.getContent();
+				var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_ALL.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
 			} catch (final Exception exception) {
-				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de ";
-				var technicalMessage = "Error INESPERADO SQL ejecutando el query en .";
+				var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_ALL_UNEXPECTED.getContent();
+				var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_ALL_UNEXPECTED.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
 			}
 			
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_ALL.getContent();
+			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_ALL.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_ALL_UNEXPECTED.getContent();
+			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_ALL_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		
@@ -78,31 +78,25 @@ public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 				}
 				
 			} catch (final SQLException exception) {
-				
-				var userMessage = "Ocurrió un problema al ejecutar la consulta de ciudad";
-				var technicalMessage = "Error SQL ejecutando el query en .";
+				var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_BY_ID.getContent();
+				var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_BY_ID.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
-				
+			
 			} catch (final Exception exception) {
-				
-				var userMessage = "Ocurrió un problema INESPERADO al ejecutar la consulta de ciudad";
-				var technicalMessage = "Error INESPERADO SQL ejecutando el query en ";
+				var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_BY_ID.getContent();
+				var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_BY_ID.getContent();
 				throw NoseException.create(exception, userMessage, technicalMessage);
-				
+			
 			}
-				
+			
 		} catch (final SQLException exception) {
-			
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_BY_ID.getContent();
+			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_BY_ID.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
-			
 		} catch (final Exception exception) {
-			
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_CITY_FIND_BY_ID.getContent();
+			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_CITY_FIND_BY_ID.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
-			
 		}
 		
 		return city;
