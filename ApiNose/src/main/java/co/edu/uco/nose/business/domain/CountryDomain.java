@@ -8,7 +8,7 @@ import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 public final class CountryDomain extends Domain {
 	private String name;
 	
-	public CountryDomain() {
+	public CountryDomain() { // Protectec
 		super(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
 	}
