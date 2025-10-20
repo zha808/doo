@@ -15,7 +15,7 @@ public final class CityMapper {
 		try {
 			var state = StateMapper.map(resultSet);
 			
-			city.setDepartment(state);
+			city.setState(state);
 			city.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idCiudadResidencia")));
 			city.setName(resultSet.getString("nombreCiudadResidencia"));
 			

@@ -112,9 +112,9 @@ public class UserSql {
 					correoElectronico = ?,
 					numeroTelefonoMovil = ?,
 					correoElectronicoConfirmado = ?,
-					numeroTelefonoMovilConfirmado = ?,
+					numeroTelefonoMovilConfirmado = ?
 			WHERE id = ?
-				""";
+			""";
 	
 	public static String DELETE = """
 			DELETE

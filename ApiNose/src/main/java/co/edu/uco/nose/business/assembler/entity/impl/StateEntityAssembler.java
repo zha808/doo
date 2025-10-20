@@ -1,7 +1,14 @@
 package co.edu.uco.nose.business.assembler.entity.impl;
 
+import static co.edu.uco.nose.business.assembler.entity.impl.CountryEntityAssembler.getCountryEntityAssembler;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import co.edu.uco.nose.business.assembler.entity.EntityAssembler;
 import co.edu.uco.nose.business.domain.StateDomain;
+import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
+import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.entity.StateEntity;
 
 public final class StateEntityAssembler implements EntityAssembler<StateEntity, StateDomain> {
@@ -18,14 +25,30 @@ public final class StateEntityAssembler implements EntityAssembler<StateEntity, 
 
 	@Override
 	public StateEntity toEntity(StateDomain domain) {
-		// TODO Auto-generated method stub
-		return null;
+		var countryEntityTmp = getCountryEntityAssembler().toEntity(domain.getCountry());
+		var domainTmp = ObjectHelper.getDefault(domain, new StateDomain(UUIDHelper.getUUIDHelper().getDefault()));
+		
+		return new StateEntity(domainTmp.getId(), domainTmp.getName(), countryEntityTmp);
 	}
 
 	@Override
 	public StateDomain toDomain(StateEntity entity) {
-		// TODO Auto-generated method stub
-		return null;
+		var countryDomainTmp = getCountryEntityAssembler().toDomain(entity.getCountry());
+		var entityTmp = ObjectHelper.getDefault(entity, new StateEntity(UUIDHelper.getUUIDHelper().getDefault()));
+		
+		return new StateDomain(entityTmp.getId(), entityTmp.getName(), countryDomainTmp);
+	}
+
+	@Override
+	public List<StateEntity> toEntity(List<StateDomain> domainList) {
+		var stateEntityList = new ArrayList<StateEntity>();
+		
+		for (var stateDomain : domainList) {
+			stateEntityList.add(toEntity(stateDomain));
+			
+		}
+		
+		return stateEntityList;
 	}
 
 }

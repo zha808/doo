@@ -1,8 +1,10 @@
 package co.edu.uco.nose.data.dao.factory.sqlserver;
 
 import java.sql.SQLException;
+import java.util.Properties;
 
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.helper.SqlConnectionHelper;
 import co.edu.uco.nose.data.dao.entity.CityDAO;
 import co.edu.uco.nose.data.dao.entity.CountryDAO;
 import co.edu.uco.nose.data.dao.entity.IdTypeDAO;
@@ -15,6 +17,8 @@ import co.edu.uco.nose.data.dao.entity.sqlserver.StateSqlServerDAO;
 import co.edu.uco.nose.data.dao.entity.sqlserver.UserSqlServerDAO;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.io.InputStream;
 import java.sql.DriverManager;
 
 
@@ -27,18 +31,26 @@ public final class SqlServerDAOFactory extends DAOFactory {
 		jdbcTemplate = new JdbcTemplate();
 	}
 	
+	private static final String PROPERTIES_FILE = "/application.properties";
+	
 	@Override
 	protected void openConnection() {
 		
-		try {
-			this.connection = DriverManager.getConnection("\"jdbc:sqlserver://localhost;databaseName=MyDatabase;user=MyUser;password=MyPassword;encrypt=true;trustServerCertificate=true;\"");
-		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
-			throw NoseException.create(userMessage, technicalMessage);
+		try (InputStream input = SqlConnectionHelper.class.getResourceAsStream(PROPERTIES_FILE)){
+			//this.connection = SqlConnectionHelper.getConnection();
+			Properties prop = new Properties();
+			//Class.forName("com.mysql.cj.jdbc.Driver");
+			
+            prop.load(input);
+
+            String url = prop.getProperty("spring.datasource.url");
+            String username = prop.getProperty("spring.datasource.username");
+            String password = prop.getProperty("spring.datasource.password");
+
+            this.connection = DriverManager.getConnection(url, username, password);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = "Error en la conexión a la base de datos.";
+			var technicalMessage = "Error en la conexión a la base de datos. Detalles técnicos: " + exception.getMessage();
 			throw NoseException.create(userMessage, technicalMessage);
 		}
 	}

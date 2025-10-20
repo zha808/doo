@@ -14,20 +14,20 @@ public final class CityEntity {
 	public CityEntity() {
 		setId(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
-		setDepartment(new StateEntity());
+		setState(new StateEntity());
 	}
 	
 	public CityEntity(final UUID id) {
 		setId(id);
 		setName(TextHelper.getDefault());
-		setDepartment(new StateEntity());
+		setState(new StateEntity());
 	}
 
 	
 	public CityEntity(final UUID id, final String name, final StateEntity country) {
 		setId(id);
 		setName(name);
-		setDepartment(country);
+		setState(country);
 	} 
 	
 	public UUID getId() {
@@ -46,11 +46,11 @@ public final class CityEntity {
 		this.name = TextHelper.getDefaultWithTrim(name);
 	}
 
-	public StateEntity getDepartment() {
+	public StateEntity getState() {
 		return department;
 	}
 
-	public void setDepartment(final StateEntity department) {
+	public void setState(final StateEntity department) {
 		this.department = (department == null) ? new StateEntity() : department;
 	}
 	

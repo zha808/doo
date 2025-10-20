@@ -8,13 +8,8 @@ import java.util.UUID;
 
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.SqlConnectionHelper;
-import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.entity.SqlConnection;
 import co.edu.uco.nose.data.dao.entity.UserDAO;
-import co.edu.uco.nose.entity.CityEntity;
-import co.edu.uco.nose.entity.CountryEntity;
-import co.edu.uco.nose.entity.IdTypeEntity;
-import co.edu.uco.nose.entity.StateEntity;
 import co.edu.uco.nose.entity.UserEntity;
 import co.edu.uco.nose.data.dao.mapper.UserMapper;
 import co.edu.uco.nose.data.dao.sql.UserSql;
@@ -33,18 +28,32 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
 		
 		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.CREATE)) {
+			System.out.println("Creating User with ID: " + entity.getId());
+			System.out.println("SQL Statement: " + UserSql.CREATE);
 			preparedStatement.setObject(1, entity.getId());
+			System.out.println("Set ID: " + entity.getId());
 			preparedStatement.setObject(2, entity.getIdentificationType().getId());
+			System.out.println("Set Identification Type ID: " + entity.getIdentificationType().getId());
 			preparedStatement.setString(3, entity.getIdNumber());
+			System.out.println("Set ID Number: " + entity.getIdNumber());
 			preparedStatement.setString(4, entity.getFirstName());
+			System.out.println("Set First Name: " + entity.getFirstName());
 			preparedStatement.setString(5, entity.getSecondName());
+			System.out.println("Set Second Name: " + entity.getSecondName());
 			preparedStatement.setString(6, entity.getLastName());
+			System.out.println("Set Last Name: " + entity.getLastName());
 			preparedStatement.setString(7, entity.getSecondLastName());
+			System.out.println("Set Second Last Name: " + entity.getSecondLastName());
 			preparedStatement.setObject(8, entity.getCity().getId());
+			System.out.println("Set City ID: " + entity.getCity().getId());
 			preparedStatement.setString(9, entity.getEmail());
+			System.out.println("Set Email: " + entity.getEmail());
 			preparedStatement.setString(10, entity.getPhoneNumber());
+			System.out.println("Set Phone Number: " + entity.getPhoneNumber());
 			preparedStatement.setBoolean(11, entity.isEmailConfirmed());
+			System.out.println("Set Email Confirmed: " + entity.isEmailConfirmed());
 			preparedStatement.setBoolean(12, entity.isPhoneConfirmed());
+			System.out.println("Set Phone Confirmed: " + entity.isPhoneConfirmed());
 			
 			preparedStatement.executeUpdate();
 			

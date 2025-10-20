@@ -7,7 +7,7 @@ class Domain {
 	private UUID id;
 
 	protected Domain(final UUID id) {
-
+		setId(id);
 	}
 
 	public UUID getId() {

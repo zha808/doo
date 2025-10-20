@@ -7,6 +7,8 @@ import co.edu.uco.nose.business.assembler.dto.impl.UserDTOAssembler;
 import co.edu.uco.nose.business.business.impl.UserBusinessImpl;
 import co.edu.uco.nose.business.facade.UserFacade;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.helper.TextHelper;
+import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.dto.UserDTO;
 
@@ -21,6 +23,7 @@ public final class UserFacadeImpl implements UserFacade {
 	@Override
 	public void registerNewUserInformation(final UserDTO userDTO) {
 		
+		
 		var daoFactory = DAOFactory.getFactory();
 		var business = new UserBusinessImpl(daoFactory);
 		
@@ -32,7 +35,6 @@ public final class UserFacadeImpl implements UserFacade {
 			business.registerNewUserInformation(domain);
 			
 			daoFactory.commitTransaction();
-			
 		} catch(final NoseException exception) {
 			daoFactory.rollbackTransaction();
 			throw exception;

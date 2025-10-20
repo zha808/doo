@@ -91,6 +91,11 @@ public class UserDTO {
 		this.firstName = TextHelper.getDefaultWithTrim(firstName);
 	}
 	
+	
+	public void idType(final String firstName) {
+		this.firstName = TextHelper.getDefaultWithTrim(firstName);
+	}
+	
 	public String getSecondName() {
 		return secondName;
 	}

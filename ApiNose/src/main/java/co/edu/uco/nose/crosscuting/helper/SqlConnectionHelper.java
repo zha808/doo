@@ -13,9 +13,10 @@ public class SqlConnectionHelper {
 	private static final String PROPERTIES_FILE = "/application.properties";
 	
 	private SqlConnectionHelper() {
+		
 	}
 
-    public static Connection getConnection() {
+    public static Connection setConnection() {
         try (InputStream input = SqlConnectionHelper.class.getResourceAsStream(PROPERTIES_FILE)) {
             Properties prop = new Properties();
             prop.load(input);

@@ -19,7 +19,6 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public void registerNewUserInformation(UserDomain userDomain) {
-		
 		// 1. Validar que la informacion sea consistente a nivel de tipo de dato, longitud, obligatoriedad, formato, rango, reglas propias del objeto
 		// 2. Validar que no exista previamente otro usuario con el mismo tipo y numero de identificacion
 		// 3. Validar que no exista previamente otro usuario con el mismo correo electronico
@@ -28,9 +27,7 @@ public final class UserBusinessImpl implements UserBusiness {
 
 		var id = UUIDHelper.getUUIDHelper().generateNewUUID();
 		var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
-		
 		userEntity.setId(id);
-		
 		// 6. Registrar la informacion del nuevo usuario
 		daoFactory.getUserDAO().create(userEntity);
 		
