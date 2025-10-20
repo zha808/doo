@@ -1,6 +1,5 @@
 package co.edu.uco.nose.data.dao.factory.sqlserver;
 
-import java.sql.SQLException;
 import java.util.Properties;
 
 import co.edu.uco.nose.crosscuting.exception.NoseException;
@@ -37,9 +36,7 @@ public final class SqlServerDAOFactory extends DAOFactory {
 	protected void openConnection() {
 		
 		try (InputStream input = SqlConnectionHelper.class.getResourceAsStream(PROPERTIES_FILE)){
-			//this.connection = SqlConnectionHelper.getConnection();
 			Properties prop = new Properties();
-			//Class.forName("com.mysql.cj.jdbc.Driver");
 			
             prop.load(input);
 
