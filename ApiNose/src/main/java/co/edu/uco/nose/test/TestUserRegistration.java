@@ -55,6 +55,7 @@ public class TestUserRegistration {
 			var facade = new UserFacadeImpl();
 			facade.registerNewUserInformation(user);
 			
+			
 			System.out.println("Gane el semestre");
 		} catch (NoseException e) {
 			System.err.println(e.getUserMessage());

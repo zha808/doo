@@ -30,4 +30,8 @@ public final class UUIDHelper {
 	public UUID generateNewUUID() {
 		return UUID.randomUUID();
 	}
+
+	public boolean isDefaultUUID(UUID id) {
+		return INSTANCE.equals(getDefault(id));
+	}
 }

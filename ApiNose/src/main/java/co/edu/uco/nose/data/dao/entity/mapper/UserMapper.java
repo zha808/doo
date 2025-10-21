@@ -1,4 +1,4 @@
-package co.edu.uco.nose.data.dao.mapper;
+package co.edu.uco.nose.data.dao.entity.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
