@@ -52,7 +52,28 @@ public final class UserFacadeImpl implements UserFacade {
 
 	@Override
 	public void dropUserInformation(UUID id) {
-		// TODO Auto-generated method stub
+		var daoFactory = DAOFactory.getFactory();
+		var business = new UserBusinessImpl(daoFactory);
+		
+		try {
+			daoFactory.initTransaction();
+			
+			business.dropUserInformation(id);
+			
+			daoFactory.commitTransaction();
+		} catch(final NoseException exception) {
+			daoFactory.rollbackTransaction();
+			throw exception;
+		} catch(final Exception exception) {
+			daoFactory.rollbackTransaction();
+			
+			var userMessage = "Se ha presentado un problema inesperado al eliminar la información del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema.";
+			var technicalMessage = "Se ha presentado un problema inesperado al eliminar la información del usuario. Por favor revise el log de errores para mayor detalle del problema.";
+			throw NoseException.create(exception, userMessage, technicalMessage);
+			
+		} finally {
+			daoFactory.closeConnection();
+		}
 		
 	}
 

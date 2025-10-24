@@ -1,8 +1,10 @@
 package co.edu.uco.nose.business.business.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import co.edu.uco.nose.business.assembler.dto.impl.UserDTOAssembler;
 import co.edu.uco.nose.business.assembler.entity.impl.UserEntityAssembler;
 import co.edu.uco.nose.business.business.UserBusiness;
 import co.edu.uco.nose.business.domain.UserDomain;
@@ -34,55 +36,63 @@ public final class UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
-	public void dropUserInformation(UUID id) {
-		// TODO Auto-generated method stub
+	public void dropUserInformation(final UUID id) {
+		System.out.println("Deleted user with ID: " + id);
+		daoFactory.getUserDAO().delete(id);
 		
 	}
 
 	@Override
-	public void updateUserInformation(UUID id, UserDomain userDomain) {
-		// TODO Auto-generated method stub
+	public void updateUserInformation(final UUID id, final UserDomain userDomain) {
+		// TODO
+		var user = daoFactory.getUserDAO().findById(id);
+		
+		daoFactory.getUserDAO().update(user);
 		
 	}
 
 	@Override
 	public List<UserDomain> findAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return findUsersByFilter(new UserDomain());
 	}
 
 	@Override
-	public List<UserDomain> findUsersByFilter(UserDomain userFilters) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserDomain> findUsersByFilter(final UserDomain userFilters) {
+		var userEntityList = daoFactory.getUserDAO().findByFilter(UserEntityAssembler.getUserEntityAssembler().toEntity(userFilters));
+		var userDomainList = new ArrayList<UserDomain>();
+		
+		for (var user : userEntityList) {
+			userDomainList.add(UserEntityAssembler.getUserEntityAssembler().toDomain(user));
+		}
+		
+		return userDomainList;
 	}
 
 	@Override
-	public UserDomain findSpecificUser(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserDomain findSpecificUser(final UUID id) {
+		return findUsersByFilter(new UserDomain(id)).stream().findFirst().orElse(new UserDomain());
 	}
 
 	@Override
-	public void confirmMobileNumber(UUID id, int confirmationCode) {
+	public void confirmMobileNumber(final UUID id, final int confirmationCode) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void confirmEmail(UUID id, int confirmationCode) {
+	public void confirmEmail(final UUID id, final int confirmationCode) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void sendMobileNumberConfirmation(UUID id) {
+	public void sendMobileNumberConfirmation(final UUID id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void sendEmailConfirmation(UUID id) {
+	public void sendEmailConfirmation(final UUID id) {
 		// TODO Auto-generated method stub
 		
 	}

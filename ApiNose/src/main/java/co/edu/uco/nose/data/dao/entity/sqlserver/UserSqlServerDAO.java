@@ -103,6 +103,7 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
 		
 		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.UPDATE)) {
+			
 			preparedStatement.setObject(1, entity.getId());
 			preparedStatement.setObject(2, entity.getIdentificationType().getId());
 			preparedStatement.setString(3, entity.getIdNumber());
@@ -133,10 +134,11 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	@Override
 	public void delete(final UUID id) {
 		SqlConnectionHelper.ensureTransactionIsStarted(getConnection());
-		
+
 		try (var preparedStatement = this.getConnection().prepareStatement(UserSql.DELETE)) {
 			
-			preparedStatement.setObject(1, id);			
+			preparedStatement.setObject(1, id);		
+			
 			preparedStatement.executeUpdate();
 			
 		} catch (final SQLException exception) {

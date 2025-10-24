@@ -2,7 +2,6 @@ package co.edu.uco.nose.test;
 
 import co.edu.uco.nose.business.facade.impl.UserFacadeImpl;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
-import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.dto.CityDTO;
 import co.edu.uco.nose.dto.CountryDTO;
@@ -14,6 +13,7 @@ public class TestUserRegistration {
 	public static void main(String[] args) {
 		
 		try {
+			
 			var idType = new IdTypeDTO();
 			idType.setId(UUIDHelper.getUUIDHelper().getFromString("86ef14dd-4160-4cd5-9339-56366ecfb14a"));
 			//idType.setId(UUIDHelper.getUUIDHelper().generateNewUUID());
@@ -53,8 +53,9 @@ public class TestUserRegistration {
 			// Colocar todos los parametros, menos el id
 			
 			var facade = new UserFacadeImpl();
-			facade.registerNewUserInformation(user);
+			//facade.registerNewUserInformation(user);
 			
+			facade.dropUserInformation(UUIDHelper.getUUIDHelper().getFromString("A20C4C37-B0CB-4340-A146-38C1A4404DA0"));
 			
 			System.out.println("Gane el semestre");
 		} catch (NoseException e) {
