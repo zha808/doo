@@ -53,9 +53,9 @@ public class TestUserRegistration {
 			// Colocar todos los parametros, menos el id
 			
 			var facade = new UserFacadeImpl();
-			//facade.registerNewUserInformation(user);
+			facade.registerNewUserInformation(user);
 			
-			facade.dropUserInformation(UUIDHelper.getUUIDHelper().getFromString("A20C4C37-B0CB-4340-A146-38C1A4404DA0"));
+			// facade.dropUserInformation(UUIDHelper.getUUIDHelper().getFromString("A20C4C37-B0CB-4340-A146-38C1A4404DA0"));
 			
 			System.out.println("Gane el semestre");
 		} catch (NoseException e) {

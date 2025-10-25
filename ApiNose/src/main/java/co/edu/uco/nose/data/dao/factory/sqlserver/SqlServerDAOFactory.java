@@ -43,7 +43,7 @@ public final class SqlServerDAOFactory extends DAOFactory {
             String url = prop.getProperty("spring.datasource.url");
             String username = prop.getProperty("spring.datasource.username");
             String password = prop.getProperty("spring.datasource.password");
-
+            
             this.connection = DriverManager.getConnection(url, username, password);
 		} catch (final Exception exception) {
 			var userMessage = "Error en la conexión a la base de datos.";

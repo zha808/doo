@@ -20,7 +20,7 @@ public class SqlConnectionHelper {
         try (InputStream input = SqlConnectionHelper.class.getResourceAsStream(PROPERTIES_FILE)) {
             Properties prop = new Properties();
             prop.load(input);
-
+            
             String url = prop.getProperty("spring.datasource.url");
             String username = prop.getProperty("spring.datasource.username");
             String password = prop.getProperty("spring.datasource.password");

@@ -37,7 +37,6 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public void dropUserInformation(final UUID id) {
-		System.out.println("Deleted user with ID: " + id);
 		daoFactory.getUserDAO().delete(id);
 		
 	}
@@ -58,7 +57,8 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public List<UserDomain> findUsersByFilter(final UserDomain userFilters) {
-		var userEntityList = daoFactory.getUserDAO().findByFilter(UserEntityAssembler.getUserEntityAssembler().toEntity(userFilters));
+		var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userFilters);
+		var userEntityList = daoFactory.getUserDAO().findByFilter(userEntity);
 		var userDomainList = new ArrayList<UserDomain>();
 		
 		for (var user : userEntityList) {
