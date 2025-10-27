@@ -43,7 +43,7 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public void updateUserInformation(final UUID id, final UserDomain userDomain) {
-		// TODO
+		
 		var user = daoFactory.getUserDAO().findById(id);
 		
 		daoFactory.getUserDAO().update(user);
@@ -52,7 +52,12 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public List<UserDomain> findAllUsers() {
-		return findUsersByFilter(new UserDomain());
+		var userEntityList = daoFactory.getUserDAO().findAll();
+		var userDomainList = new ArrayList<UserDomain>();
+		for (var userEntity : userEntityList) {
+			userDomainList.add(UserEntityAssembler.getUserEntityAssembler().toDomain(userEntity));
+		}
+		return userDomainList;
 	}
 
 	@Override

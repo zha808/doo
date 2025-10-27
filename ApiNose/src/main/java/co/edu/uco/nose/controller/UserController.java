@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import co.edu.uco.nose.controller.dto.Response;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.dto.UserDTO;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -60,6 +62,77 @@ public class UserController {
 			exception.printStackTrace();
 		}
 
+		return new ResponseEntity<>(responseObjectData, responseStatusCode);
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<Response<UserDTO>> findUserByID(@PathVariable UUID id) {
+		
+		Response<UserDTO> responseObjectData = Response.createSuccededResponse();
+		HttpStatusCode responseStatusCode = HttpStatus.OK;
+		
+		try {
+			var facade = new UserFacadeImpl();
+			var user = facade.findSpecificUser(id);
+			responseObjectData.setData(new ArrayList<UserDTO>());
+			responseObjectData.getData().add(user);
+			responseObjectData.addMessage("User by ID filtered succesfully");
+		
+			
+		} catch (NoseException exception) {
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(exception.getUserMessage());
+			responseStatusCode = HttpStatus.BAD_REQUEST;
+			exception.printStackTrace();
+		} catch (Exception exception) {
+			var userMessage = "Unexpected error";
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(userMessage);
+			responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+			exception.printStackTrace();
+		}
+
+		return new ResponseEntity<>(responseObjectData, responseStatusCode);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Response<UserDTO>> findUserByFilters(@PathVariable UUID id , 
+			@PathVariable(required= false) String firstName, 
+			@PathVariable(required= false) String lastName) {
+		Response<UserDTO> responseObjectData = Response.createSuccededResponse();
+		HttpStatusCode responseStatusCode = HttpStatus.OK;
+		
+		try {
+			
+			var facade = new UserFacadeImpl();
+			var userDto = new UserDTO(
+					id == null ? UUID.fromString("00000000-0000-0000-0000-000000000000") : id, 
+					null, 
+					firstName == null ? "" : firstName, 
+					null, 
+					lastName == null ? "" : lastName, 
+					null, 
+					null, 
+					null, 
+					null, 
+					null);
+			var user = facade.findUsersByFilter(userDto);
+			
+			responseObjectData.setData(facade.findUsersByFilter(userDto));
+			responseObjectData.addMessage("Users filtered succesfully");
+			
+		}catch (NoseException exception) {
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(exception.getUserMessage());
+			responseStatusCode = HttpStatus.BAD_REQUEST;
+			exception.printStackTrace();
+		} catch (Exception exception) {
+			var userMessage = "Unexpected error";
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(userMessage);
+			responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+			exception.printStackTrace();
+		}	
 		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	

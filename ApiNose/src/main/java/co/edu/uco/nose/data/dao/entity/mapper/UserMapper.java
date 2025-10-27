@@ -5,15 +5,12 @@ import java.sql.SQLException;
 
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
-import co.edu.uco.nose.entity.CityEntity;
-import co.edu.uco.nose.entity.CountryEntity;
-import co.edu.uco.nose.entity.IdTypeEntity;
-import co.edu.uco.nose.entity.StateEntity;
+import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 import co.edu.uco.nose.entity.UserEntity;
 
 public final class UserMapper {
 	
-	public static UserEntity map(ResultSet resultSet) {
+	public static UserEntity map(final ResultSet resultSet) {
 		var user = new UserEntity();
 		try {
 			var idType = IdTypeMapper.map(resultSet);
@@ -32,14 +29,13 @@ public final class UserMapper {
 			user.setPhoneConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
 			user.setEmailConfirmed(resultSet.getBoolean("correoElectronicoConfirmado"));
 			
-			
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_USER_MAPPER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_USER_MAPPER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_USER_MAPPER_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_USER_MAPPER_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		return user;

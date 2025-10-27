@@ -116,37 +116,57 @@ public enum MessagesEnum {
 	TECHNICAL_ERROR_IDTYPE_FIND_BY_ID("Error SQL ejecutando IdTypeDAO.findById",
 		"Error SQL ejecutando el query en IdTypeSqlServerDAO.findById. Revise la traza de errores para mas detalles."),
 	
-	// DAO - User
-	USER_ERROR_USER_CREATE("Se ha presentado un problema tratando de registrar la informacion del nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema al tratar de ejecutar el proceso de creacion de un usuario"),
-	TECHNICAL_ERROR_USER_CREATE("Error creando usuario",
-		"Se ha presentado un error SQL al intentar crear un usuario. Revise la traza de errores para mas detalles."),
-	USER_ERROR_USER_CREATE_UNEXPECTED("Se ha presentado un problema INESPERADO tratando de crear un nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema inesperado al tratar de ejecutar el proceso de creacion de un usuario"),
-	TECHNICAL_ERROR_USER_CREATE_UNEXPECTED("Error inesperado creando usuario",
-		"Se ha presentado un error inesperado al intentar crear un usuario. Revise la traza de errores para mas detalles."),
-	
-	USER_ERROR_USER_FIND_ALL("Se ha presentado un problema tratando de consultar la informacion de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema al tratar de ejecutar el proceso de consulta de usuarios. Por favor verifique que la informacion este correcta"),
-	TECHNICAL_ERROR_USER_FIND_ALL("Error ejecutando UserDAO.findAll",
-		"Error ejecutando el query en UserSqlServerDAO.findAll. Revise la traza de errores para mas detalles."),
-	USER_ERROR_USER_FIND_ALL_UNEXPECTED("Se ha presentado un problema INESPERADO tratando de consultar la informacion de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de consulta de usuarios. Revise la traza de errores para mas detalles."),
-	
-	USER_ERROR_USER_FIND_BY_ID("Se ha presentado un problema tratando de consultar la informacion del usuario deseado. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema al tratar de ejecutar el proceso de consulta del usuario deseado. Por favor verifique que la informacion este correcta"),
-	TECHNICAL_ERROR_USER_FIND_BY_ID("Error ejecutando UserDAO.findById",
-		"Error ejecutando el query en UserSqlServerDAO.findById. Revise la traza de errores para mas detalles."),
-	
-	USER_ERROR_USER_UPDATE("Se ha presentado un problema tratando de modificar la informacion del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema al tratar de ejecutar el proceso de modificacion de un usuario"),
-	TECHNICAL_ERROR_USER_UPDATE("Error modificando usuario",
-		"Error SQL ejecutando el proceso de actualizacion de usuario. Revise la traza de errores para mas detalles."),
-	
-	USER_ERROR_USER_DELETE("Se ha presentado un problema tratando de eliminar la informacion del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema",
-		"Se ha presentado un problema al tratar de ejecutar el proceso de eliminacion de usuario"),
-	TECHNICAL_ERROR_USER_DELETE("Error eliminando usuario",
-		"Error SQL ejecutando el proceso de eliminacion de usuario. Revise la traza de errores para mas detalles.");
+	// Mapper messages (added for ApiNose mappers)
+	USER_ERROR_CITY_MAPPER("Ocurrió un problema al mapear la ciudad desde el ResultSet",
+		"Error al intentar extraer los campos del ResultSet para construir CityEntity. Verifique los nombres de las columnas y el esquema de la consulta."),
+	TECHNICAL_ERROR_CITY_MAPPER("Error técnico mapeando CityMapper",
+		"Se presentó un error técnico al mapear el ResultSet a CityEntity. Revise la traza de errores para más detalle."),
+	USER_ERROR_CITY_MAPPER_UNEXPECTED("Ocurrió un problema INESPERADO al mapear la ciudad",
+		"Se presentó un error inesperado al mapear el ResultSet a CityEntity. Por favor contacte al administrador del sistema."),
+	TECHNICAL_ERROR_CITY_MAPPER_UNEXPECTED("Error inesperado mapeando CityMapper",
+		"Se presentó un error inesperado al mapear el ResultSet a CityEntity. Revise la traza de errores para más detalle."),
+
+	USER_ERROR_COUNTRY_MAPPER("Ocurrió un problema al mapear el país desde el ResultSet",
+		"Error al intentar extraer los campos del ResultSet para construir CountryEntity. Verifique los nombres de las columnas y el esquema de la consulta."),
+	TECHNICAL_ERROR_COUNTRY_MAPPER("Error técnico mapeando CountryMapper",
+		"Se presentó un error técnico al mapear el ResultSet a CountryEntity. Revise la traza de errores para más detalle."),
+	USER_ERROR_COUNTRY_MAPPER_UNEXPECTED("Ocurrió un problema INESPERADO al mapear el país",
+		"Se presentó un error inesperado al mapear el ResultSet a CountryEntity. Por favor contacte al administrador del sistema."),
+	TECHNICAL_ERROR_COUNTRY_MAPPER_UNEXPECTED("Error inesperado mapeando CountryMapper",
+		"Se presentó un error inesperado al mapear el ResultSet a CountryEntity. Revise la traza de errores para más detalle."),
+
+	USER_ERROR_STATE_MAPPER("Ocurrió un problema al mapear el estado desde el ResultSet",
+		"Error al intentar extraer los campos del ResultSet para construir StateEntity. Verifique los nombres de las columnas y el esquema de la consulta."),
+	TECHNICAL_ERROR_STATE_MAPPER("Error técnico mapeando StateMapper",
+		"Se presentó un error técnico al mapear el ResultSet a StateEntity. Revise la traza de errores para más detalle."),
+	USER_ERROR_STATE_MAPPER_UNEXPECTED("Ocurrió un problema INESPERADO al mapear el estado",
+		"Se presentó un error inesperado al mapear el ResultSet a StateEntity. Por favor contacte al administrador del sistema."),
+	TECHNICAL_ERROR_STATE_MAPPER_UNEXPECTED("Error inesperado mapeando StateMapper",
+		"Se presentó un error inesperado al mapear el ResultSet a StateEntity. Revise la traza de errores para más detalle."),
+
+	USER_ERROR_IDTYPE_MAPPER("Ocurrió un problema al mapear el tipo de identificacion desde el ResultSet",
+		"Error al intentar extraer los campos del ResultSet para construir IdTypeEntity. Verifique los nombres de las columnas y el esquema de la consulta."),
+	TECHNICAL_ERROR_IDTYPE_MAPPER("Error técnico mapeando IdTypeMapper",
+		"Se presentó un error técnico al mapear el ResultSet a IdTypeEntity. Revise la traza de errores para más detalle."),
+	USER_ERROR_IDTYPE_MAPPER_UNEXPECTED("Ocurrió un problema INESPERADO al mapear el tipo de identificacion",
+		"Se presentó un error inesperado al mapear el ResultSet a IdTypeEntity. Por favor contacte al administrador del sistema."),
+	TECHNICAL_ERROR_IDTYPE_MAPPER_UNEXPECTED("Error inesperado mapeando IdTypeMapper",
+		"Se presentó un error inesperado al mapear el ResultSet a IdTypeEntity. Revise la traza de errores para más detalle."),
+
+	USER_ERROR_USER_MAPPER("Ocurrió un problema al mapear el usuario desde el ResultSet",
+		"Error al intentar extraer los campos del ResultSet para construir UserEntity. Verifique los nombres de las columnas y el esquema de la consulta."),
+	TECHNICAL_ERROR_USER_MAPPER("Error técnico mapeando UserMapper",
+		"Se presentó un error técnico al mapear el ResultSet a UserEntity. Revise la traza de errores para más detalle."),
+	USER_ERROR_USER_MAPPER_UNEXPECTED("Ocurrió un problema INESPERADO al mapear el usuario",
+		"Se presentó un error inesperado al mapear el ResultSet a UserEntity. Por favor contacte al administrador del sistema."),
+	TECHNICAL_ERROR_USER_MAPPER_UNEXPECTED("Error inesperado mapeando UserMapper",
+		"Se presentó un error inesperado al mapear el ResultSet a UserEntity. Revise la traza de errores para más detalle."), 
+	USER_ERROR_USER_FIND_ALL("", ""), TECHNICAL_ERROR_USER_FIND_ALL("", ""), 
+	USER_ERROR_USER_UPDATE("", ""), TECHNICAL_ERROR_USER_UPDATE("", ""), 
+	USER_ERROR_USER_DELETE("",  ""), TECHNICAL_ERROR_USER_DELETE("",  ""), 
+	USER_ERROR_USER_CREATE("", ""), TECHNICAL_ERROR_USER_CREATE("", ""), 
+	USER_ERROR_USER_CREATE_UNEXPECTED("", ""), TECHNICAL_ERROR_USER_CREATE_UNEXPECTED("", ""), 
+	USER_ERROR_USER_FIND_ALL_UNEXPECTED("", ""), TECHNICAL_ERROR_USER_FIND_ALL_UNEXPECTED("", ""),;
 
 	
 	private String title;

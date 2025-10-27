@@ -11,6 +11,7 @@ import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
+import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 import co.edu.uco.nose.data.dao.entity.SqlConnection;
 import co.edu.uco.nose.data.dao.entity.StateDAO;
 import co.edu.uco.nose.data.dao.entity.mapper.StateMapper;
@@ -34,7 +35,6 @@ public final class StateSqlServerDAO extends SqlConnection implements StateDAO{
 		var sql = createSentenceFindByFilter(filterEntity, parameterList);
 
 		try (var preparedStatement = this.getConnection().prepareStatement(sql)) {            		
-			
 			for (var index = 0; index < parameterList.size(); index++) {
 				preparedStatement.setObject(index + 1, parameterList.get(index));
 			}
@@ -44,12 +44,12 @@ public final class StateSqlServerDAO extends SqlConnection implements StateDAO{
 		} catch (final NoseException exception) {
 			throw exception;
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_STATE_FIND_ALL.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_STATE_FIND_ALL.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_STATE_FIND_ALL_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_STATE_FIND_ALL_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 	}
@@ -107,12 +107,12 @@ public final class StateSqlServerDAO extends SqlConnection implements StateDAO{
 				listState.add(StateMapper.map(resultSet));
 			}
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_STATE_MAPPER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_STATE_MAPPER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_STATE_MAPPER_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_STATE_MAPPER_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		

@@ -32,6 +32,6 @@ public final class UUIDHelper {
 	}
 
 	public boolean isDefaultUUID(final UUID id) {
-		return INSTANCE.equals(getDefault(id));
+		return getDefault().equals(id);
 	}
 }

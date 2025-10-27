@@ -16,6 +16,7 @@ import co.edu.uco.nose.data.dao.entity.SqlConnection;
 import co.edu.uco.nose.data.dao.entity.mapper.CountryMapper;
 import co.edu.uco.nose.data.dao.entity.sql.CountrySql;
 import co.edu.uco.nose.entity.CountryEntity;
+import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 
 public final class CountrySqlServerDAO extends SqlConnection implements CountryDAO {
 	
@@ -35,7 +36,6 @@ public final class CountrySqlServerDAO extends SqlConnection implements CountryD
 		var sql = createSentenceFindByFilter(filterEntity, parameterList);
 
 		try (var preparedStatement = this.getConnection().prepareStatement(sql)) {            		
-			
 			for (var index = 0; index < parameterList.size(); index++) {
 				preparedStatement.setObject(index + 1, parameterList.get(index));
 			}
@@ -45,12 +45,12 @@ public final class CountrySqlServerDAO extends SqlConnection implements CountryD
 		} catch (final NoseException exception) {
 			throw exception;
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_COUNTRY_FIND_ALL.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_COUNTRY_FIND_ALL.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_COUNTRY_FIND_ALL_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_COUNTRY_FIND_ALL_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 	}
@@ -89,7 +89,7 @@ public final class CountrySqlServerDAO extends SqlConnection implements CountryD
 	}
 	
 	private void addCondition(final List<String> conditions, final List<Object> parameterList,
-			final boolean condition, final String clause, final Object value) {
+				final boolean condition, final String clause, final Object value) {
 		if (condition) {
 			conditions.add(clause);
 			parameterList.add(value);
@@ -104,12 +104,12 @@ public final class CountrySqlServerDAO extends SqlConnection implements CountryD
 				listCountry.add(CountryMapper.map(resultSet));
 			}
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_COUNTRY_MAPPER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_COUNTRY_MAPPER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_COUNTRY_MAPPER_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_COUNTRY_MAPPER_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		

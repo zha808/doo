@@ -46,7 +46,7 @@ public final class Response<T> {
 	}
 	
 	public void addMessage(final String message) {
-		if (TextHelper.isEmptyWithTrim(message)) {
+		if (!TextHelper.isEmptyWithTrim(message)) {
 			getMessages().add(message);
 		}
 	

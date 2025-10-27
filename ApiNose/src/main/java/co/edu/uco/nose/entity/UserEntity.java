@@ -71,6 +71,7 @@ public final class UserEntity {
 		setCity(city);
 		setEmailConfirmed(false);
 		setPhoneConfirmed(false);
+		// TODO
 	}
 	
 	public UUID getId() {
@@ -162,6 +163,10 @@ public final class UserEntity {
 		setEmailConfirmedIsDefaultvalue(false);
 	}
 	
+	public boolean isEmailConfirmedIsDefaultvalue() {
+		return emailConfirmedIsDefaultvalue;
+	}
+	
 	private void setEmailConfirmedIsDefaultvalue(final boolean emailConfirmedIsDefaultvalue) {
 		this.emailConfirmedIsDefaultvalue = emailConfirmedIsDefaultvalue;
 	}
@@ -175,10 +180,12 @@ public final class UserEntity {
 		setPhoneConfirmedIsDefaultvalue(false);
 	}
 	
+	public boolean isPhoneConfirmedIsDefaultvalue() {
+		return phoneConfirmedIsDefaultvalue;
+	}
+	
 	private void setPhoneConfirmedIsDefaultvalue(final boolean phoneConfirmedIsDefaultvalue) {
 		this.phoneConfirmedIsDefaultvalue = phoneConfirmedIsDefaultvalue;
 	}
 
-	
-	
 }

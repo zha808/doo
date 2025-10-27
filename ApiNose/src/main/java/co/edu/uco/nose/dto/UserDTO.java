@@ -18,7 +18,9 @@ public class UserDTO {
 	private IdTypeDTO identificationType;
 	private CityDTO city;
 	private boolean emailConfirmed;
+	private boolean emailConfirmedIsDefaultvalue;
 	private boolean phoneConfirmed;
+	private boolean phoneConfirmedIsDefaultvalue;
 	
 	public UserDTO() {
 		setId(UUIDHelper.getUUIDHelper().getDefault());
@@ -32,7 +34,9 @@ public class UserDTO {
 		setIdentificationType(new IdTypeDTO());
 		setCity(new CityDTO());
 		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultvalue(true);
 		setPhoneConfirmed(false);
+		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
 	public UserDTO(final UUID id) {
@@ -47,7 +51,9 @@ public class UserDTO {
 		setIdentificationType(new IdTypeDTO());
 		setCity(new CityDTO());
 		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultvalue(true);
 		setPhoneConfirmed(false);
+		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
 	public UserDTO(final UUID id, final String idNumber, final String firstName, final String secondName, final String lastName, final String secondLastName, final String email, final String phoneNumber,
@@ -160,6 +166,15 @@ public class UserDTO {
 		this.emailConfirmed = emailConfirmed;
 	}
 	
+	public boolean isEmailConfirmedIsDefaultvalue() {
+		return emailConfirmedIsDefaultvalue;
+	}
+	
+	private void setEmailConfirmedIsDefaultvalue(final boolean emailConfirmedIsDefaultvalue) {
+		this.emailConfirmedIsDefaultvalue = emailConfirmedIsDefaultvalue;
+	}
+
+	
 	public boolean isPhoneConfirmed() {
 		return phoneConfirmed;
 	}
@@ -167,5 +182,14 @@ public class UserDTO {
 	public void setPhoneConfirmed(boolean phoneConfirmed) {
 		this.phoneConfirmed = phoneConfirmed;
 	}
+
+	public boolean isPhoneConfirmedIsDefaultvalue() {
+		return phoneConfirmedIsDefaultvalue;
+	}
+	
+	private void setPhoneConfirmedIsDefaultvalue(final boolean phoneConfirmedIsDefaultvalue) {
+		this.phoneConfirmedIsDefaultvalue = phoneConfirmedIsDefaultvalue;
+	}
+	
 	
 }

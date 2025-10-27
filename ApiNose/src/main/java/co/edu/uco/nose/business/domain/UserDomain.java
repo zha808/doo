@@ -17,7 +17,9 @@ public final class UserDomain extends Domain{
 	private IdTypeDomain identificationType;
 	private CityDomain city;
 	private boolean emailConfirmed;
+	private boolean emailConfirmedIsDefaultvalue;
 	private boolean phoneConfirmed;
+	private boolean phoneConfirmedIsDefaultvalue;
 	
 	public UserDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
@@ -31,7 +33,9 @@ public final class UserDomain extends Domain{
 		setIdentificationType(new IdTypeDomain());
 		setCity(new CityDomain());
 		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultvalue(true);
 		setPhoneConfirmed(false);
+		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
 	public UserDomain(UUID id) {
@@ -46,7 +50,9 @@ public final class UserDomain extends Domain{
 		setIdentificationType(new IdTypeDomain());
 		setCity(new CityDomain());
 		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultvalue(true);
 		setPhoneConfirmed(false);
+		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
 	public UserDomain(UUID id, String idNumber, String firstName, String secondName, String lastName, String secondLastName, String email, String phoneNumber,
@@ -146,6 +152,15 @@ public final class UserDomain extends Domain{
 	public void setEmailConfirmed(boolean emailConfirmed) {
 		this.emailConfirmed = emailConfirmed;
 	}
+	
+	public boolean isEmailConfirmedIsDefaultvalue() {
+		return emailConfirmedIsDefaultvalue;
+	}
+	
+	private void setEmailConfirmedIsDefaultvalue(final boolean emailConfirmedIsDefaultvalue) {
+		this.emailConfirmedIsDefaultvalue = emailConfirmedIsDefaultvalue;
+	}
+
 
 	public boolean isPhoneConfirmed() {
 		return phoneConfirmed;
@@ -153,6 +168,14 @@ public final class UserDomain extends Domain{
 
 	public void setPhoneConfirmed(boolean phoneConfirmed) {
 		this.phoneConfirmed = phoneConfirmed;
+	}
+	
+	public boolean isPhoneConfirmedIsDefaultvalue() {
+		return phoneConfirmedIsDefaultvalue;
+	}
+	
+	private void setPhoneConfirmedIsDefaultvalue(final boolean phoneConfirmedIsDefaultvalue) {
+		this.phoneConfirmedIsDefaultvalue = phoneConfirmedIsDefaultvalue;
 	}
 	
 }

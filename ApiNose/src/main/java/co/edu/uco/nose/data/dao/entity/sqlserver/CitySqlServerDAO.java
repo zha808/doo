@@ -16,6 +16,7 @@ import co.edu.uco.nose.data.dao.entity.SqlConnection;
 import co.edu.uco.nose.data.dao.entity.mapper.CityMapper;
 import co.edu.uco.nose.data.dao.entity.sql.CitySql;
 import co.edu.uco.nose.entity.CityEntity;
+import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 
 public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 
@@ -34,7 +35,6 @@ public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 		var sql = createSentenceFindByFilter(filterEntity, parameterList);
 
 		try (var preparedStatement = this.getConnection().prepareStatement(sql)) {            		
-			
 			for (var index = 0; index < parameterList.size(); index++) {
 				preparedStatement.setObject(index + 1, parameterList.get(index));
 			}
@@ -44,12 +44,12 @@ public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 		} catch (final NoseException exception) {
 			throw exception;
 		} catch (final SQLException exception) {
-			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_USER_FIND_ALL.getContent();
-			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_USER_FIND_ALL.getContent();
+			var userMessage = MessagesEnum.USER_ERROR_CITY_FIND_ALL.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_CITY_FIND_ALL.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_USER_FIND_ALL_UNEXPECTED.getContent();
-			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_USER_FIND_ALL.getContent();
+			var userMessage = MessagesEnum.USER_ERROR_CITY_FIND_ALL_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_CITY_FIND_ALL_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 	}
@@ -108,12 +108,12 @@ public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
 				listCity.add(CityMapper.map(resultSet));
 			}
 		} catch (final SQLException exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_CITY_MAPPER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_CITY_MAPPER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
-			var userMessage = "";
-			var technicalMessage = "";
+			var userMessage = MessagesEnum.USER_ERROR_CITY_MAPPER_UNEXPECTED.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_CITY_MAPPER_UNEXPECTED.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		

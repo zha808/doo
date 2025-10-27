@@ -15,26 +15,9 @@ public class SqlConnectionHelper {
 	private SqlConnectionHelper() {
 		
 	}
+	
+	
 
-    public static Connection setConnection() {
-        try (InputStream input = SqlConnectionHelper.class.getResourceAsStream(PROPERTIES_FILE)) {
-            Properties prop = new Properties();
-            prop.load(input);
-            
-            String url = prop.getProperty("spring.datasource.url");
-            String username = prop.getProperty("spring.datasource.username");
-            String password = prop.getProperty("spring.datasource.password");
-            String driver = prop.getProperty("spring.datasource.driverClassName");
-
-            Class.forName(driver);
-            return DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-        	var userMessage = "Error connecting to the database";
-            var technicalMessage = "Technical details: " + e.getMessage();
-            throw NoseException.create(e, userMessage, technicalMessage);
-    	}
-    }
-    
     public static void ensureConnectionIsNotNull(final Connection connection) {
  
 		if(ObjectHelper.isNull(connection)) {
