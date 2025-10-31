@@ -71,8 +71,7 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
         var parameterList = new ArrayList<Object>();
         var sql = createSentenceFindByFilter(filterEntity, parameterList);
 
-        try (var preparedStatement = this.getConnection().prepareStatement(sql)) {                        
-            System.out.println( parameterList.size());
+        try (var preparedStatement = this.getConnection().prepareStatement(sql)) {
             for (var index = 0; index < parameterList.size(); index++) {
                 preparedStatement.setObject(index + 1, parameterList.get(index));
             }
@@ -158,7 +157,6 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
         var sql = new StringBuilder(UserSql.FIND_BY_FILTER);
         
         createWhereClauseFindByFilter(sql, parameterList, filterEntity);
-        System.out.println(sql.toString());
         return sql.toString();
     }
     
@@ -172,8 +170,11 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 				"u.id = ?", filterEntityValidated.getId());
 		
 		addCondition(conditions, parameterList, !UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getIdentificationType().getId()),
-				"u.tipoIdentificacion = ?", filterEntityValidated.getIdNumber());
-		System.out.println(!UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getIdentificationType().getId()));
+				"u.tipoIdentificacion = ?", filterEntityValidated.getIdentificationType().getId());
+		
+		addCondition(conditions, parameterList, !TextHelper.isEmptyWithTrim(filterEntityValidated.getIdNumber()),
+				"u.numeroIdentificacion = ?", filterEntityValidated.getIdNumber());
+
 		addCondition(conditions, parameterList, !TextHelper.isEmptyWithTrim(filterEntityValidated.getFirstName()),
 				"u.primerNombre = ?", filterEntityValidated.getFirstName());
 		
@@ -217,7 +218,6 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	
 	private List<UserEntity> executeSentenceFindByFilter(final PreparedStatement preparedStatement) {
 		var listUser = new ArrayList<UserEntity>();
-		System.out.println(preparedStatement);
 		try (var resultSet = preparedStatement.executeQuery()) {
 			
 			while (resultSet.next()) {
@@ -228,6 +228,7 @@ public final class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		} catch (final SQLException exception) {
 			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_USER_FIND_ALL.getContent();
 			var technicalMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.TECHNICAL_ERROR_USER_FIND_ALL.getContent();
+			exception.printStackTrace();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		} catch (final Exception exception) {
 			var userMessage = co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum.USER_ERROR_USER_FIND_ALL_UNEXPECTED.getContent();

@@ -17,15 +17,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.uco.nose.business.business.impl.UserBusinessImpl;
 import co.edu.uco.nose.business.facade.impl.UserFacadeImpl;
 import co.edu.uco.nose.controller.dto.Response;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.dto.UserDTO;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
+	
+	@GetMapping("/dummy")
+	public UserDTO getUserDTODummy() {
+		return new UserDTO();
+	}
 	
 	@GetMapping
 	public ResponseEntity<Response<UserDTO>> findAllUsers() {
@@ -34,16 +41,6 @@ public class UserController {
 		HttpStatusCode responseStatusCode = HttpStatus.OK;
 		
 		try {
-			/*
-			var responseUserList = new ArrayList<UserDTO>();
-			
-			responseUserList.add(new UserDTO());
-			responseUserList.add(new UserDTO());
-			responseUserList.add(new UserDTO());
-			responseUserList.add(new UserDTO());
-			
-			responseObjectData.setData(responseUserList);
-			*/
 			var facade = new UserFacadeImpl();
 			responseObjectData.setData(facade.findAllUsers());
 			responseObjectData.addMessage("All users filtered succesfully");
@@ -65,7 +62,7 @@ public class UserController {
 		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Response<UserDTO>> findUserByID(@PathVariable UUID id) {
 		
 		Response<UserDTO> responseObjectData = Response.createSuccededResponse();
@@ -75,9 +72,13 @@ public class UserController {
 			var facade = new UserFacadeImpl();
 			var user = facade.findSpecificUser(id);
 			responseObjectData.setData(new ArrayList<UserDTO>());
-			responseObjectData.getData().add(user);
-			responseObjectData.addMessage("User by ID filtered succesfully");
-		
+			
+			if (!UUIDHelper.getUUIDHelper().isDefaultUUID(user.getId())) {
+				responseObjectData.getData().add(user);
+				responseObjectData.addMessage("User by ID filtered succesfully");
+			} else {
+				responseObjectData.addMessage("User not found");
+			}	
 			
 		} catch (NoseException exception) {
 			responseObjectData = Response.createFailedResponse();
@@ -95,7 +96,7 @@ public class UserController {
 		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
-	@GetMapping
+	@GetMapping("filter/")
 	public ResponseEntity<Response<UserDTO>> findUserByFilters(@PathVariable UUID id , 
 			@PathVariable(required= false) String firstName, 
 			@PathVariable(required= false) String lastName) {
@@ -125,33 +126,80 @@ public class UserController {
 			responseObjectData = Response.createFailedResponse();
 			responseObjectData.addMessage(exception.getUserMessage());
 			responseStatusCode = HttpStatus.BAD_REQUEST;
-			exception.printStackTrace();
 		} catch (Exception exception) {
 			var userMessage = "Unexpected error";
 			responseObjectData = Response.createFailedResponse();
 			responseObjectData.addMessage(userMessage);
 			responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-			exception.printStackTrace();
 		}	
 		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
 	@PostMapping
-	public String registerNewUserInformation(@RequestBody UserDTO user) {
+	public ResponseEntity<Response> registerNewUserInformation(@RequestBody UserDTO user) {
+		Response<Void> responseObjectData = Response.createSuccededResponse();
+		HttpStatusCode responseStatusCode = HttpStatus.OK;
 		
-		return "POST: User Registered!";
+		try {
+			var facade = new UserFacadeImpl();
+			facade.registerNewUserInformation(user);
+			responseObjectData.addMessage("User registered succesfully");
+		} catch (NoseException exception) {
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(exception.getUserMessage());
+			responseStatusCode = HttpStatus.BAD_REQUEST;
+		} catch (Exception exception) {
+			var userMessage = "Unexpected error";
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(userMessage);
+			responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
 	@PutMapping("{id}")
-	public String updateUserInformation(@PathVariable UUID id, @RequestBody UserDTO user) {
-		
-		return "PUT: User updated!";
+	public ResponseEntity<Response> updateUserInformation(@PathVariable UUID id, @RequestBody UserDTO user) {
+		Response<Void> responseObjectData = Response.createSuccededResponse();
+		HttpStatusCode responseStatusCode = HttpStatus.OK;
+		try {
+			var facade = new UserFacadeImpl();
+			facade.updateUserInformation(id, user);
+			responseObjectData.addMessage("User updated succesfully");
+		} catch (NoseException exception) {
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(exception.getUserMessage());
+			responseStatusCode = HttpStatus.BAD_REQUEST;
+		} catch (Exception exception) {
+			var userMessage = "Unexpected error";
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(userMessage);
+			responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+			
+		}
+		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
 	@DeleteMapping("{id}")
-	public String dropUserInformation(@PathVariable UUID id) {
+	public ResponseEntity<Response> dropUserInformation(@PathVariable UUID id) {
+		Response<Void> responseObjectData = Response.createSuccededResponse();
+		HttpStatusCode responseStatusCode = HttpStatus.OK;
 		
-		return "DELETE: User updated!";
+		try {
+			var facade = new UserFacadeImpl();
+			facade.dropUserInformation(id);
+			responseObjectData.addMessage("User deleted succesfully");
+		} catch (NoseException exception) {
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(exception.getUserMessage());
+			responseStatusCode = HttpStatus.BAD_REQUEST;
+		} catch (Exception exception) {
+			var userMessage = "Unexpected error";
+			responseObjectData = Response.createFailedResponse();
+			responseObjectData.addMessage(userMessage);
+			responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
 }

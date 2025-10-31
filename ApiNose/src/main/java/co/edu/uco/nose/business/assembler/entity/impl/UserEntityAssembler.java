@@ -31,8 +31,19 @@ public final class UserEntityAssembler implements EntityAssembler<UserEntity, Us
 		var cityEntityTmp = getCityEntityAssembler().toEntity(domain.getCity());
 		
 		var domainTmp = ObjectHelper.getDefault(domain, new UserDomain(UUIDHelper.getUUIDHelper().getDefault()));
-		return new UserEntity(domainTmp.getId(), domainTmp.getIdNumber(), domainTmp.getFirstName(), domainTmp.getSecondName(), domainTmp.getLastName(), domainTmp.getSecondLastName(),
-				domainTmp.getEmail(), domainTmp.getPhoneNumber(), idTypeEntityTmp, cityEntityTmp);
+		return new UserEntity(
+				domainTmp.getId(), 
+				domainTmp.getIdNumber(), 
+				domainTmp.getFirstName(), 
+				domainTmp.getSecondName(), 
+				domainTmp.getLastName(), 
+				domainTmp.getSecondLastName(),
+				domainTmp.getEmail(), 
+				domainTmp.getPhoneNumber(), 
+				idTypeEntityTmp, 
+				cityEntityTmp,
+				domainTmp.isEmailConfirmed(),
+				domainTmp.isPhoneConfirmed());
 	}
 
 	@Override

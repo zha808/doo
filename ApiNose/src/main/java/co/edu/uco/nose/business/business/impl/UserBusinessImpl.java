@@ -21,16 +21,36 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public void registerNewUserInformation(final UserDomain userDomain) {
-		// 1. Validar que la informacion sea consistente a nivel de tipo de dato, longitud, obligatoriedad, formato, rango, reglas propias del objeto
-		// 2. Validar que no exista previamente otro usuario con el mismo tipo y numero de identificacion
-		// 3. Validar que no exista previamente otro usuario con el mismo correo electronico
-		// 4. Validar que no exista previamente otro usuario con el mismo numero de telefono celular
-		// 5. Generar un identificador para el nuevo usuario, asegurando que no exista
+		// 1. Validar que la informacion sea consistente a nivel de tipo de dato, longitud, obligatoriedad, formato, rango, reglas propias del objeto		
+		
+		var userFilter = new UserDomain(userDomain.getId());
+		var userUUID = findUsersByFilter(userFilter);
+		while (userExists(userDomain.getId())) {
+			userDomain.setId(UUIDHelper.getUUIDHelper().generateNewUUID());
+		}
+		
+		userFilter = new UserDomain();
+		userFilter.setIdentificationType(userDomain.getIdentificationType());
+		userFilter.setIdNumber(userDomain.getIdNumber());
+		
+		if (!findUsersByFilter(userFilter).isEmpty()) {
+			throw new IllegalArgumentException("Ya existe otro usuario con el mismo tipo y numero de identificacion");
+		}
+		
+		userFilter = new UserDomain();
+		userFilter.setEmail(userDomain.getEmail());
+		if (!findUsersByFilter(userFilter).isEmpty()) {
+			throw new IllegalArgumentException("Ya existe otro usuario con el mismo correo electronico");
+		}
+		
+		userFilter = new UserDomain();
+		userFilter.setPhoneNumber(userDomain.getPhoneNumber());
+		if (!findUsersByFilter(userFilter).isEmpty()) {
+			throw new IllegalArgumentException("Ya existe otro usuario con el mismo numero de telefono celular");
+		}
 
-		var id = UUIDHelper.getUUIDHelper().generateNewUUID();
 		var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
-		userEntity.setId(id);
-		// 6. Registrar la informacion del nuevo usuario
+		userEntity.setId(userDomain.getId());
 		daoFactory.getUserDAO().create(userEntity);
 		
 	}
@@ -43,11 +63,8 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public void updateUserInformation(final UUID id, final UserDomain userDomain) {
-		
 		var user = daoFactory.getUserDAO().findById(id);
-		
 		daoFactory.getUserDAO().update(user);
-		
 	}
 
 	@Override
@@ -75,7 +92,8 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public UserDomain findSpecificUser(final UUID id) {
-		return findUsersByFilter(new UserDomain(id)).stream().findFirst().orElse(new UserDomain());
+		var userEntity = daoFactory.getUserDAO().findById(id);
+		return UserEntityAssembler.getUserEntityAssembler().toDomain(userEntity);
 	}
 
 	@Override
@@ -100,6 +118,12 @@ public final class UserBusinessImpl implements UserBusiness {
 	public void sendEmailConfirmation(final UUID id) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean userExists(final UUID id) {
+		var userFilter = new UserDomain(id);
+		var userList = findUsersByFilter(userFilter);
+		return !userList.isEmpty();
 	}
 	
 }

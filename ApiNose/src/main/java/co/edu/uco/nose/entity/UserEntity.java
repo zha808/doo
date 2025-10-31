@@ -58,7 +58,7 @@ public final class UserEntity {
 	}
 	
 	public UserEntity(UUID id, String idNumber, String firstName, String secondName, String lastName, String secondLastName, String email, String phoneNumber,
-			IdTypeEntity identificationType, CityEntity city) {
+			IdTypeEntity identificationType, CityEntity city, boolean emailConfirmed, boolean phoneConfirmed) {
 		setId(id);
 		setIdNumber(idNumber);
 		setFirstName(firstName);
@@ -69,9 +69,10 @@ public final class UserEntity {
 		setPhoneNumber(phoneNumber);
 		setIdentificationType(identificationType);
 		setCity(city);
-		setEmailConfirmed(false);
-		setPhoneConfirmed(false);
-		// TODO
+		setEmailConfirmed(emailConfirmed);
+		setEmailConfirmedIsDefaultvalue(false);
+		setPhoneConfirmed(phoneConfirmed);
+		setPhoneConfirmedIsDefaultvalue(false);
 	}
 	
 	public UUID getId() {

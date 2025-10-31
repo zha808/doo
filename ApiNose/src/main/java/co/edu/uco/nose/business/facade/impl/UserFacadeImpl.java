@@ -53,7 +53,7 @@ public final class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public void dropUserInformation(UUID id) {
+	public void dropUserInformation(final UUID id) {
 		var daoFactory = DAOFactory.getFactory();
 		var business = new UserBusinessImpl(daoFactory);
 		
@@ -87,7 +87,22 @@ public final class UserFacadeImpl implements UserFacade {
 
 	@Override
 	public List<UserDTO> findAllUsers() {
-		return findUsersByFilter(new UserDTO());
+		var daoFactory = DAOFactory.getFactory();
+		var business = new UserBusinessImpl(daoFactory);
+		
+		try {
+			var domainList = business.findAllUsers();
+			var dtoList = UserDTOAssembler.getUserDTOAssembler().toDTO(domainList);
+			return dtoList;
+		} catch (final NoseException exception) {
+			throw exception;
+		} catch (final Exception exception) {
+			var userMessage = "Se ha presentado un problema inesperado al consultar la información de los usuarios. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema.";
+			var technicalMessage = "Se ha presentado un problema inesperado al consultar la información de los usuarios. Por favor revise el log de errores para mayor detalle del problema.";
+			throw NoseException.create(exception, userMessage, technicalMessage);
+		} finally {
+			daoFactory.closeConnection();
+		}
 	}
 
 	@Override
@@ -114,7 +129,22 @@ public final class UserFacadeImpl implements UserFacade {
 
 	@Override
 	public UserDTO findSpecificUser(final UUID id) {
-		return findUsersByFilter(new UserDTO(id)).stream().findFirst().orElse(new UserDTO());
+		var daoFactory = DAOFactory.getFactory();
+		var business = new UserBusinessImpl(daoFactory);
+		
+		try {
+			var domain = business.findSpecificUser(id);
+			var dto = UserDTOAssembler.getUserDTOAssembler().toDTO(domain);
+			return dto;
+		} catch (final NoseException exception) {
+			throw exception;
+		} catch (final Exception exception) {
+			var userMessage = "Se ha presentado un problema inesperado al consultar la información del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema.";
+			var technicalMessage = "Se ha presentado un problema inesperado al consultar la información del usuario. Por favor revise el log de errores para mayor detalle del problema.";
+			throw NoseException.create(exception, userMessage, technicalMessage);
+		} finally {
+			daoFactory.closeConnection();
+		}
 	}
 
 	@Override
