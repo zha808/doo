@@ -56,8 +56,19 @@ public class UserDTO {
 		setPhoneConfirmedIsDefaultvalue(true);
 	}
 	
-	public UserDTO(final UUID id, final String idNumber, final String firstName, final String secondName, final String lastName, final String secondLastName, final String email, final String phoneNumber,
-			final IdTypeDTO identificationType, final CityDTO city) {
+	public UserDTO(
+			final UUID id, 
+			final String idNumber, 
+			final String firstName, 
+			final String secondName, 
+			final String lastName, 
+			final String secondLastName, 
+			final String email, 
+			final String phoneNumber,
+			final IdTypeDTO identificationType, 
+			final CityDTO city,
+			final boolean emailConfirmed,
+			final boolean phoneConfirmed) {
 		setId(id);
 		setIdNumber(idNumber);
 		setFirstName(firstName);

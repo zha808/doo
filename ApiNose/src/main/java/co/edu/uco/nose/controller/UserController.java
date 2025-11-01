@@ -22,6 +22,8 @@ import co.edu.uco.nose.business.facade.impl.UserFacadeImpl;
 import co.edu.uco.nose.controller.dto.Response;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
+import co.edu.uco.nose.dto.CityDTO;
+import co.edu.uco.nose.dto.IdTypeDTO;
 import co.edu.uco.nose.dto.UserDTO;
 
 @CrossOrigin(origins = "*")
@@ -96,27 +98,43 @@ public class UserController {
 		return new ResponseEntity<>(responseObjectData, responseStatusCode);
 	}
 	
-	@GetMapping("filter/")
-	public ResponseEntity<Response<UserDTO>> findUserByFilters(@PathVariable UUID id , 
-			@PathVariable(required= false) String firstName, 
-			@PathVariable(required= false) String lastName) {
+	@GetMapping("/$")
+	public ResponseEntity<Response<UserDTO>> findUserByFilters(
+			@PathVariable(name = "id", required= false) UUID id , 
+			@PathVariable(name = "idNumber", required= false) String idNumber , 
+			@PathVariable(name = "firstName", required= false) String firstName, 
+			@PathVariable(name = "secondName", required= false) String secondName,
+			@PathVariable(name = "lastName", required= false) String lastName,	
+			@PathVariable(name = "secondLastName", required= false) String secondLastName,
+			@PathVariable(name = "email", required= false) String email,
+			@PathVariable(name = "phoneNumber", required= false) String phoneNumber,
+			@PathVariable(name = "identificationType", required= false) UUID identificationType,
+			@PathVariable(name = "city", required= false) UUID city,
+			@PathVariable(name = "emailConfirmed", required= false) boolean emailConfirmed,
+			@PathVariable(name = "phoneConfirmed", required= false) boolean phoneConfirmed
+			){
 		Response<UserDTO> responseObjectData = Response.createSuccededResponse();
 		HttpStatusCode responseStatusCode = HttpStatus.OK;
 		
 		try {
 			
+			var idTypeDTO = new IdTypeDTO(identificationType);
+			var cityDTO = new CityDTO(city);
+			
 			var facade = new UserFacadeImpl();
 			var userDto = new UserDTO(
-					id == null ? UUID.fromString("00000000-0000-0000-0000-000000000000") : id, 
-					null, 
-					firstName == null ? "" : firstName, 
-					null, 
-					lastName == null ? "" : lastName, 
-					null, 
-					null, 
-					null, 
-					null, 
-					null);
+					id, 
+					idNumber,
+					firstName, 
+					secondName, 
+					lastName, 
+					secondLastName, 
+					email, 
+					phoneNumber, 
+					idTypeDTO,
+					cityDTO, 
+					emailConfirmed,
+					phoneConfirmed);
 			var user = facade.findUsersByFilter(userDto);
 			
 			responseObjectData.setData(facade.findUsersByFilter(userDto));

@@ -7,6 +7,8 @@ import java.util.UUID;
 import co.edu.uco.nose.business.assembler.dto.impl.UserDTOAssembler;
 import co.edu.uco.nose.business.assembler.entity.impl.UserEntityAssembler;
 import co.edu.uco.nose.business.business.UserBusiness;
+import co.edu.uco.nose.business.business.validator.idType.ValidateIdTypeExistsById;
+import co.edu.uco.nose.business.business.validator.user.ValidateDataUserConsistencyForRegisterNewInformation;
 import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
@@ -21,38 +23,40 @@ public final class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public void registerNewUserInformation(final UserDomain userDomain) {
-		// 1. Validar que la informacion sea consistente a nivel de tipo de dato, longitud, obligatoriedad, formato, rango, reglas propias del objeto		
+		// 1. Validar que la informacion sea consistente a nivel de tipo de dato, longitud, obligatoriedad, formato, rango, reglas propias del objeto
 		
-		var userFilter = new UserDomain(userDomain.getId());
-		var userUUID = findUsersByFilter(userFilter);
-		while (userExists(userDomain.getId())) {
-			userDomain.setId(UUIDHelper.getUUIDHelper().generateNewUUID());
-		}
+		ValidateDataUserConsistencyForRegisterNewInformation.executeValidation(userDomain);
 		
-		userFilter = new UserDomain();
-		userFilter.setIdentificationType(userDomain.getIdentificationType());
-		userFilter.setIdNumber(userDomain.getIdNumber());
+		// 2. Validar que exista tipo de identificacion
+		ValidateIdTypeExistsById.executeValidation(userDomain.getIdentificationType().getId(), daoFactory);
 		
-		if (!findUsersByFilter(userFilter).isEmpty()) {
-			throw new IllegalArgumentException("Ya existe otro usuario con el mismo tipo y numero de identificacion");
-		}
+		// 3. Validar que exista la ciudad de residencia
 		
-		userFilter = new UserDomain();
-		userFilter.setEmail(userDomain.getEmail());
-		if (!findUsersByFilter(userFilter).isEmpty()) {
-			throw new IllegalArgumentException("Ya existe otro usuario con el mismo correo electronico");
-		}
+		// 4. Validar que no exista previamente otro usuario con el mismo tipo y numero de identificacion
 		
-		userFilter = new UserDomain();
-		userFilter.setPhoneNumber(userDomain.getPhoneNumber());
-		if (!findUsersByFilter(userFilter).isEmpty()) {
-			throw new IllegalArgumentException("Ya existe otro usuario con el mismo numero de telefono celular");
-		}
-
+		// 5. Validar que no exista previamente otro usuario con el mismo correo electronico
+		
+		// 6. Validar que no exista previamente otro usuario con el mismo numero de telefono celular
+		
+		// 7. Ensamblar objeto como entity
 		var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
-		userEntity.setId(userDomain.getId());
+		
+		// 8. Generar ID
+		userEntity.setId(generateId());
+		
+		// 9. Registrar la informacion del nuevo usuario
 		daoFactory.getUserDAO().create(userEntity);
 		
+	}
+	
+	private UUID generateId() {
+		var id = UUIDHelper.getUUIDHelper().generateNewUUID();
+		var userEntity = daoFactory.getUserDAO().findById(id);
+		while (!UUIDHelper.getUUIDHelper().isDefaultUUID(userEntity.getId())) {
+			id = UUIDHelper.getUUIDHelper().generateNewUUID();
+			userEntity = daoFactory.getUserDAO().findById(id);
+		};
+		return id;
 	}
 
 	@Override
@@ -118,12 +122,5 @@ public final class UserBusinessImpl implements UserBusiness {
 	public void sendEmailConfirmation(final UUID id) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public boolean userExists(final UUID id) {
-		var userFilter = new UserDomain(id);
-		var userList = findUsersByFilter(userFilter);
-		return !userList.isEmpty();
-	}
-	
+	}	
 }
