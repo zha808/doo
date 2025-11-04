@@ -12,8 +12,6 @@ public final class Response<T> {
 	private List<T> data;
 	private boolean responseSucceded;
 	
-
-	
 	public Response(final List<String> messages, final List<T> data, 
 			final boolean responseSucceded) {
 		setMessages(messages);

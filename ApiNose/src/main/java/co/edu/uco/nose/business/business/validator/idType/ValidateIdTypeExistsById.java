@@ -1,6 +1,5 @@
 package co.edu.uco.nose.business.business.validator.idType;
 
-import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.business.business.rule.idType.IdTypeExistsByIdRule;
 import co.edu.uco.nose.business.business.validator.Validator;
 

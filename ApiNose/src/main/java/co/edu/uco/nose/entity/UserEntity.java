@@ -47,12 +47,12 @@ public final class UserEntity {
 		setSecondName(TextHelper.getDefault());
 		setLastName(TextHelper.getDefault());
 		setSecondLastName(TextHelper.getDefault());
-		setEmail(TextHelper.getDefault());
-		setPhoneNumber(TextHelper.getDefault());
 		setIdentificationType(new IdTypeEntity());
 		setCity(new CityEntity());
+		setEmail(TextHelper.getDefault());
 		setEmailConfirmed(false);
 		setEmailConfirmedIsDefaultvalue(true);
+		setPhoneNumber(TextHelper.getDefault());
 		setPhoneConfirmed(false);
 		setPhoneConfirmedIsDefaultvalue(true);
 	}

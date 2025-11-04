@@ -1,6 +1,5 @@
 package co.edu.uco.nose.business.business.validator.user;
 
-import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.business.business.rule.generics.StringLengthValueIsValidRule;
 import co.edu.uco.nose.business.business.rule.generics.StringValueIsPresentRule;
 import co.edu.uco.nose.business.business.validator.Validator;
@@ -42,7 +41,7 @@ public class ValidateDataUserConsistencyForRegisterNewInformation implements Val
 		StringValueIsPresentRule.executeRule(data.getFirstName(), "primer nombre", true);
 		StringValueIsPresentRule.executeRule(data.getLastName(), "primer apellido", true);
 		
-		// COntinue with other attributes validation
+		// Continue with other attributes validation
 		// UUIDValueIsPresent
 	}
 	
