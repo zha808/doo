@@ -50,13 +50,13 @@ public class ValidateDataUserConsistencyForRegisterNewInformation implements Val
 		StringLengthValueIsValidRule.executeRule(data.getIdNumber(), "numero de identificacion", 1, 50, true);
 		StringLengthValueIsValidRule.executeRule(data.getFirstName(), "primer nombre", 1, 100, true);
 		
-		if (TextHelper.isEmptyWithTrim(data.getSecondName())) {
+		if (!TextHelper.isEmptyWithTrim(data.getSecondName())) {
 			StringLengthValueIsValidRule.executeRule(data.getSecondName(), "segundo nombre", 1, 100, true);
 		}
 		
 		StringLengthValueIsValidRule.executeRule(data.getLastName(), "primer apellido", 1, 100, true);
 		
-		if (TextHelper.isEmptyWithTrim(data.getSecondLastName())) {
+		if (!TextHelper.isEmptyWithTrim(data.getSecondLastName())) {
 			StringLengthValueIsValidRule.executeRule(data.getSecondLastName(), "segundo apellido", 1, 100, true);
 		}
 		

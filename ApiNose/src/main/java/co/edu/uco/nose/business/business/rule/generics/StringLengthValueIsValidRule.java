@@ -37,7 +37,7 @@ public class StringLengthValueIsValidRule implements Rule {
 		boolean mustApplyTrim = (boolean) data[4];
 		
 		if (TextHelper.lengthIsValid(stringData, minLength, maxLength, mustApplyTrim)) {
-			var userMessage = "El dato [".concat(dataName).concat("] no tiene una longitud entre").concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength).concat("..."));
+			var userMessage = "El dato [".concat(dataName).concat("] no tiene una longitud entre ").concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength).concat("..."));
 			var technicalMessage = "El dato [".concat(dataName).concat("] no tiene una longitud entre").concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength).concat("..."));
 			throw NoseException.create(userMessage,	technicalMessage);
 		}

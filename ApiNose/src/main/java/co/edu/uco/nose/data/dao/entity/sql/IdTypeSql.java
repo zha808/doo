@@ -26,17 +26,6 @@ public class IdTypeSql {
 			 INNER JOIN Ciudad AS c ON u.ciudadResidencia = c.id
 			 INNER JOIN Departamento AS d ON c.departamento = d.id
 			 INNER JOIN Pais AS p ON d.pais = p.id
-			WHERE (? IS NULL OR u.tipoIdentificacion = ?)
-			  AND (? IS NULL OR u.numeroIdentificacion = ?)
-			  AND (? IS NULL OR u.primerNombre LIKE CONCAT('%', ?, '%'))
-			  AND (? IS NULL OR u.segundoNombre LIKE CONCAT('%', ?, '%'))
-			  AND (? IS NULL OR u.primerApellido LIKE CONCAT('%', ?, '%'))
-			  AND (? IS NULL OR u.segundoApellido LIKE CONCAT('%', ?, '%'))
-			  AND (? IS NULL OR u.ciudadResidencia = ?)
-			  AND (? IS NULL OR u.correoElectronico LIKE CONCAT('%', ?, '%'))
-			  AND (? IS NULL OR u.numeroTelefonoMovil LIKE CONCAT('%', ?, '%'))
-			  AND (? IS NULL OR u.correoElectronicoConfirmado = ?)
-			  AND (? IS NULL OR u.numeroTelefonoMovilConfirmado = ?)
 			""";
 	
 }
